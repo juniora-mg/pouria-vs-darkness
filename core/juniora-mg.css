@@ -1,0 +1,74 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.jmg-characters {
+    position: absolute;
+    transition: .1s;
+    z-index: 5;
+}
+
+.jmg-taked-characters {
+    position: absolute;
+    transition: .3s;
+    z-index: 6;
+}
+
+.jmg-ball-characters {
+    position: absolute;
+    transition: .01s;
+}
+
+.jmg-health {
+    position: absolute;
+    transition: .2s;
+}
+
+.rotate0 {
+    transform: rotate(0deg) !important;
+}
+
+.rotate90 {
+    transform: rotate(90deg) !important;
+}
+
+.rotate180 {
+    transform: rotate(180deg) !important;
+}
+
+.rotate270 {
+    transform: rotate(270deg) !important;
+}
+
+.flip {
+    transform: scaleX(-1);
+}
+
+.red-filter {
+    filter: sepia(100%) saturate(1000%) hue-rotate(0deg) brightness(50%);
+}
+
+.gray-filter {
+    filter: grayscale(100%);
+    transition: .5s;
+}
+
+.despawn-effect {
+    transform: translate(0, -200px);
+    opacity: 0;
+    transition: 1s;
+}
+
+.panels {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999999;
+    width: 100vw;
+}
