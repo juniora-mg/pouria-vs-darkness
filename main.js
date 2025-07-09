@@ -5,45 +5,45 @@ const game = new Juniora
 game.characters(
     {
         pouria: {
-            avatar: ('http://127.0.0.1:5500/images/pouria.jpg'),
+            avatar: ('./images/pouria.jpg'),
             size: 'xx-lg',
             health: 6000
         },
         gun: {
-            avatar: ('http://127.0.0.1:5500/images/gun.png'),
+            avatar: ('./images/gun.png'),
             size: 'md',
             direction: 'right',
         },
         ammo: {
-            avatar: ('http://127.0.0.1:5500/images/ammo.png'),
+            avatar: ('./images/ammo.png'),
             size: 'x-sm',
             flip: true
         },
         gun2: {
-            avatar: ('http://127.0.0.1:5500/images/gun2.png'),
+            avatar: ('./images/gun2.png'),
             size: 'xx-lg',
             direction: 'right',
         },
         ammo2: {
-            avatar: ('http://127.0.0.1:5500/images/ammo2.png'),
+            avatar: ('./images/ammo2.png'),
             size: 'x-sm'
         },
         gun3: {
-            avatar: ('http://127.0.0.1:5500/images/gun3.png'),
+            avatar: ('./images/gun3.png'),
             size: 'xx-lg',
             direction: 'right',
         },
         ammo3: {
-            avatar: ('http://127.0.0.1:5500/images/ammo3.png'),
+            avatar: ('./images/ammo3.png'),
             size: 'x-sm'
         },
         netaniaho: {
-            avatar: ('http://127.0.0.1:5500/images/neta.jpg'),
+            avatar: ('./images/neta.jpg'),
             size: 'md',
             health: 600,   
         },
         Trump: {
-            avatar: 'http://127.0.0.1:5500/images/trump.jpg',
+            avatar: './images/trump.jpg',
             size: 'x-lg',
             health: 800
         }
@@ -94,7 +94,7 @@ game.setup(
             function fillAmmo() {
                 ammoMonitor.innerHTML = ''
                 for (let i = 0; i <ammoCount; i++) {
-                    let ammo = image('http://127.0.0.1:5500/images/ammo' + pouriaAmmo +'.png')
+                    let ammo = image('./images/ammo' + pouriaAmmo +'.png')
                     ammo.style.transform = pouriaAmmo === '' ? 'rotate(90deg)' : 'rotate(270deg)'
                     ammo.width = 20
                     ammoMonitor.appendChild(ammo)
@@ -117,13 +117,13 @@ game.setup(
                     e.shoot('ammo' + pouriaAmmo, spawnPoint, direction, speed)
                     ammoCount--
                     ammoMonitor.removeChild(ammoMonitor.lastChild)
-                    sound('http://127.0.0.1:5500/audios/bang.mp3')
+                    sound('./audios/bang.mp3')
                 }
             })
             e.keyEvent('Control', () => {
                 if (allowFillAmmo) {
                     fillAmmo()
-                    sound('http://127.0.0.1:5500/audios/change.mp3')
+                    sound('./audios/change.mp3')
                     allowFillAmmo = false
                 }
                 ammoCount = pouriaAmmo === '' ? 7 : (pouriaAmmo === '2' ? 12 : 50)
@@ -182,7 +182,7 @@ game.setup(
                         spawnPoint = [netaniaho.getLocation()[0] + netaniaho.getSize()[0]*0.5, netaniaho.getLocation()[1]-30]
                     }
                     e.shoot('ammo', spawnPoint, netaniaho.getDirection(), 50)
-                    sound('http://127.0.0.1:5500/audios/bang.mp3')
+                    sound('./audios/bang.mp3')
                     if (netaniaho.health() <= 0) {
                         clearInterval(netaniahoShoot)
                     }
@@ -232,7 +232,7 @@ game.setup(
                         spawnPoint = [Trump.getLocation()[0] + Trump.getSize()[0]*0.5, Trump.getLocation()[1]-30]
                     }
                     e.shoot('ammo2', spawnPoint, Trump.getDirection(), 50)
-                    sound('http://127.0.0.1:5500/audios/bang.mp3')
+                    sound('./audios/bang.mp3')
                     if (Trump.health() <= 0) {
                         clearInterval(TrumpShoot)
                     }

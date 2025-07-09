@@ -1,0 +1,41 @@
+{
+  "name": "pouria-game",
+  "version": "1.0.0",
+  "description": "Pouria vs Darkness: The Final Fight",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juniora-mg/pouria-vs-darkness.git"
+  },
+  "keywords": [
+    "game",
+    "pouria"
+  ],
+  "author": "MohammadAli Arjomand",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/juniora-mg/pouria-vs-darkness/issues"
+  },
+  "homepage": "https://github.com/juniora-mg/pouria-vs-darkness#readme",
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.8.1",
+    "@electron-forge/maker-deb": "^7.8.1",
+    "@electron-forge/maker-rpm": "^7.8.1",
+    "@electron-forge/maker-squirrel": "^7.8.1",
+    "@electron-forge/maker-zip": "^7.8.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.8.1",
+    "@electron-forge/plugin-fuses": "^7.8.1",
+    "@electron/fuses": "^1.8.0",
+    "electron": "^37.2.0"
+  }
+}
