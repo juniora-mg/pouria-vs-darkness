@@ -73,7 +73,7 @@ game.setup(
             pouria.onDied(() => {
                 setTimeout(() => {
                     localStorage.record = localStorage.kills > localStorage.record ? localStorage.kills : localStorage.record
-                    alert('You lost!\nClick "OK" to start again')
+                    alert('باختی!\nرو دکمه اوکی بزن تا بازی از اول شروع شه')
                     location.reload()
                 }, 1200)
             })
