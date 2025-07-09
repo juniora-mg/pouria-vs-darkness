@@ -103,7 +103,8 @@ class Juniora {
                     spawnedCharacters: this.spawnedCharacters,
                     events: {
                         hit: null,
-                        died: null
+                        died: null,
+                        moved: null
                     },
                     onHit(method) {
                         this.events.hit = method
@@ -113,7 +114,12 @@ class Juniora {
                         this.events.died = method
                         this.spawnedCharacters[name + time].events.onDied = method
                     },
+                    onMoved(method) {
+                        this.events.moved = method
+                        this.spawnedCharacters[name + time].events.onMoved = method
+                    },
                     moveUp(steps=8) {
+                        const oldLocation = this.getLocation()
                         const character = document.querySelector(`#jmg-${time}-character-${name}`)
                         character.setAttribute('top', +(character.getAttribute('top'))-steps)
                         character.style.top = character.getAttribute('top') + "px"
@@ -129,8 +135,16 @@ class Juniora {
                             const monitor = document.querySelector('#jmg-'+ character.getAttribute('time') +'-health-monitor-' + name)
                             monitor.style.top = +(character.getAttribute('top'))-50 + "px"
                         }
+                        if (this.events.moved !== null) {
+
+                        this.events.moved({
+                            oldLocation, 
+                            newLocation: this.getLocation()
+                        })}
                     },
                     moveDown(steps=8) {
+                        const oldLocation = this.getLocation()
+
                         const character = document.querySelector(`#jmg-${time}-character-${name}`)
                         character.setAttribute('top', +(character.getAttribute('top'))+steps)
                         character.style.top = character.getAttribute('top') + "px"
@@ -150,8 +164,17 @@ class Juniora {
                                 monitor.style.top = document.body.clientHeight + 50 + "px"
                             }
                         }
+
+                        if (this.events.moved !== null) {
+
+                        this.events.moved({
+                            oldLocation, 
+                            newLocation: this.getLocation()
+                        })}
                     },
                     moveLeft(steps=8) {
+                        const oldLocation = this.getLocation()
+
                         const character = document.querySelector(`#jmg-${time}-character-${name}`)
                         character.setAttribute('left', +(character.getAttribute('left'))-steps)
                         character.style.left = character.getAttribute('left') + "px"
@@ -178,8 +201,16 @@ class Juniora {
                             
                             monitor.style.left = +(character.getAttribute('left'))-(monitor.clientWidth-character.clientWidth)/2 + "px"
                         }
+                        if (this.events.moved !== null) {
+
+                        this.events.moved({
+                            oldLocation, 
+                            newLocation: this.getLocation()
+                        })}
                     },
                     moveRight(steps=8) {
+                        const oldLocation = this.getLocation()
+
                         const character = document.querySelector(`#jmg-${time}-character-${name}`)
                         character.setAttribute('left', +(character.getAttribute('left'))+steps)
                         character.style.left = character.getAttribute('left') + "px"
@@ -205,12 +236,25 @@ class Juniora {
                             const monitor = document.querySelector('#jmg-'+ character.getAttribute('time') +'-health-monitor-' + name)
                             monitor.style.left = +(character.getAttribute('left'))-(monitor.clientWidth-character.clientWidth)/2 + "px"
                         }
+                        if (this.events.moved !== null) {
+
+                        this.events.moved({
+                            oldLocation, 
+                            newLocation: this.getLocation()
+                        })}
                     },
                     jump(steps=350) {
+                        const oldLocation = this.getLocation()
+
                         const character = document.querySelector(`#jmg-${time}-character-${name}`)
                         if (character.getAttribute("physics") === "active" && +(character.getAttribute("top"))+character.clientHeight >= document.body.clientHeight) {
                             this.moveUp(steps)
                         }
+                        if (this.events.moved !== null) {
+                            this.events.moved({
+                                oldLocation, 
+                                newLocation: this.getLocation()
+                            })}
                     },
                     getLocation() {
                         const character = document.querySelector(`#jmg-${time}-character-${name}`)

@@ -77,6 +77,17 @@ game.setup(
                     location.reload()
                 }, 1200)
             })
+            // pouria.onMoved(e => {
+            //     console.log('ran');
+            //     if (e.newLocation[1] < 0 || e.newLocation[1] + pouria.getSize()[1] > document.body.clientWidth) {
+            //         if (e.newLocation[1] > e.oldLocation[1]) {
+            //             pouria.moveLeft(1)
+            //         }
+            //         else {
+            //             pouria.moveRight(1)
+            //         }
+            //     }
+            // })
 
             let ammoCount = 7
             const ammoMonitor = document.querySelector('.ammo-count')
