@@ -242,3 +242,14 @@ game.setup(
 )
 
 game.start()
+
+
+function exitGame() {
+    let conf = confirm("واقعا میخوای بری بیرون؟");
+    console.log(conf);
+    if (conf) {       
+        localStorage.record = localStorage.kills > localStorage.record ? localStorage.kills : localStorage.record
+        window.location.href = "start.html"
+    }
+}
+document.querySelector("#exit").addEventListener("click", exitGame)
