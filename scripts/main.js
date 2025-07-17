@@ -1,4 +1,5 @@
 import Juniora, {image, size, sound} from '../core/juniora-mg.js'
+import { changeMoney } from './money.js'
 
 const game = new Juniora
 
@@ -151,6 +152,7 @@ game.setup(
                     return true
                 })
                 netaniaho.onDied(() => {
+                    changeMoney(6)
                     if (localStorage.kills === '20') {
                         spawnTrump()
                     }
@@ -206,6 +208,7 @@ game.setup(
                     return true
                 })
                 Trump.onDied(() => {
+                    changeMoney(8)
                     spawnTrump()
                     localStorage.kills = +(localStorage.kills)+1
                     document.getElementById('kills').innerText = localStorage.kills
