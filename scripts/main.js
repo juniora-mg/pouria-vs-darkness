@@ -53,6 +53,39 @@ game.characters(
 
 game.setup(
     e => {
+            // functions
+            // CHANGE GUN 
+            const changeGunTo7Tir = () => {
+                pouria.untake(pouriaGun)
+                pouriaGun = pouria.take('gun')
+                pouriaAmmo = ''
+                allowFillAmmo = true
+                ammoCount = 7
+                fillAmmo()
+            }
+            e.keyEvent('1', changeGunTo7Tir)
+            e.keyEvent('۱', changeGunTo7Tir)
+            const changeGunToRifle = () => {
+                pouria.untake(pouriaGun)
+                pouriaGun = pouria.take('gun2')
+                pouriaAmmo = '2'
+                allowFillAmmo = true
+                ammoCount = 12
+                fillAmmo()
+            }
+            e.keyEvent('2', changeGunToRifle)
+            e.keyEvent('۲', changeGunToRifle)
+            const changeGunToLeaser = () => {
+                pouria.untake(pouriaGun)
+                pouriaGun = pouria.take('gun3')
+                pouriaAmmo = '3'
+                allowFillAmmo = true
+                ammoCount = 50
+                fillAmmo()
+            }
+            e.keyEvent('3', changeGunToLeaser)
+            e.keyEvent('۳', changeGunToLeaser)
+
             localStorage.kills = 0
             localStorage.record = localStorage.record === undefined ? 0 : localStorage.record
             localStorage.money = localStorage.money === undefined ? 0 : localStorage.money
@@ -64,8 +97,7 @@ game.setup(
             const pouria = e.spawnCharacter('pouria')
             pouria.activateUserControlls()
             pouria.activatePhysics()
-            const pouriaGun = pouria.take('gun')
-            let pouriaGun2, pouriaGun3
+            let pouriaGun = pouria.take('gun')
             let pouriaAmmo = ''
             pouria.moveRight(400)
             pouria.onHit((name) => {
@@ -80,17 +112,6 @@ game.setup(
                     location.reload()
                 }, 1200)
             })
-            // pouria.onMoved(e => {
-            //     console.log('ran');
-            //     if (e.newLocation[1] < 0 || e.newLocation[1] + pouria.getSize()[1] > document.body.clientWidth) {
-            //         if (e.newLocation[1] > e.oldLocation[1]) {
-            //             pouria.moveLeft(1)
-            //         }
-            //         else {
-            //             pouria.moveRight(1)
-            //         }
-            //     }
-            // })
 
             let ammoCount = 7
             const ammoMonitor = document.querySelector('.ammo-count')
@@ -120,13 +141,13 @@ game.setup(
                     e.shoot('ammo' + pouriaAmmo, spawnPoint, direction, speed)
                     ammoCount--
                     ammoMonitor.removeChild(ammoMonitor.lastChild)
-                    sound('./audios/bang.mp3')
+                    sound('../audios/bang.mp3')
                 }
             })
             e.keyEvent('Control', () => {
                 if (allowFillAmmo) {
                     fillAmmo()
-                    sound('./audios/change.mp3')
+                    sound('../audios/change.mp3')
                     allowFillAmmo = false
                 }
                 ammoCount = pouriaAmmo === '' ? 7 : (pouriaAmmo === '2' ? 12 : 50)
@@ -147,7 +168,7 @@ game.setup(
                 netaniaho.take('gun')
                 netaniaho.moveLeft(1)
                 netaniaho.onHit((name) => {
-                    let damage = name === 'ammo' ? 20 : 50
+                    let damage = name === 'ammo' ? 20 : (name === 'ammo2' ? 50 : 200)
                     netaniaho.health(netaniaho.health()-damage, true)
                     return true
                 })
@@ -161,14 +182,6 @@ game.setup(
                     }
                     localStorage.kills = +(localStorage.kills)+1
                     document.getElementById('kills').innerText = localStorage.kills
-                    if (localStorage.kills === '5') {
-                        pouria.untake(pouriaGun)
-                        pouriaGun2 = pouria.take('gun2')
-                        pouriaAmmo = '2'
-                        allowFillAmmo = true
-                        ammoCount = 12
-                        fillAmmo()
-                    }
                 })
 
                 const netaniahoShoot = setInterval(() => {
@@ -186,7 +199,7 @@ game.setup(
                         spawnPoint = [netaniaho.getLocation()[0] + netaniaho.getSize()[0]*0.5, netaniaho.getLocation()[1]-30]
                     }
                     e.shoot('ammo', spawnPoint, netaniaho.getDirection(), 50)
-                    sound('./audios/bang.mp3')
+                    sound('../audios/bang.mp3')
                     if (netaniaho.health() <= 0) {
                         clearInterval(netaniahoShoot)
                     }
@@ -203,7 +216,7 @@ game.setup(
                 Trump.take('gun2')
                 Trump.moveLeft(1)
                 Trump.onHit((name) => {
-                    let damage = name === 'ammo2' ? 50 : 200
+                    let damage = name === 'ammo2' ? 50 : (name === 'ammo3' ? 200 : 20)
                     Trump.health(Trump.health()-damage, true)
                     return true
                 })
@@ -212,14 +225,6 @@ game.setup(
                     spawnTrump()
                     localStorage.kills = +(localStorage.kills)+1
                     document.getElementById('kills').innerText = localStorage.kills
-                    if (localStorage.kills === '30') {
-                        pouria.untake(pouriaGun2)
-                        pouria.take('gun3')
-                        pouriaAmmo = '3'
-                        allowFillAmmo = true
-                        ammoCount = 50
-                        fillAmmo()
-                    }
                 })
             
                 const TrumpShoot = setInterval(() => {
@@ -237,7 +242,7 @@ game.setup(
                         spawnPoint = [Trump.getLocation()[0] + Trump.getSize()[0]*0.5, Trump.getLocation()[1]-30]
                     }
                     e.shoot('ammo2', spawnPoint, Trump.getDirection(), 50)
-                    sound('./audios/bang.mp3')
+                    sound('../audios/bang.mp3')
                     if (Trump.health() <= 0) {
                         clearInterval(TrumpShoot)
                     }
