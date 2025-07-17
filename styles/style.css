@@ -1,6 +1,6 @@
 @font-face {
     font-family: vazir;
-    src: url(./fonts/Vazirmatn-Regular.ttf);
+    src: url(../fonts/Vazirmatn-Regular.ttf);
 }
 
 * {
@@ -17,7 +17,7 @@ html {
 }
 
 body {
-    background: url('./images/background.jpg') center no-repeat;
+    background: url('../images/background.jpg') center no-repeat;
     background-size: cover;
     height: 100%;
 }

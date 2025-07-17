@@ -8,7 +8,7 @@ const createWindow = () => {
     icon: "./images/icon.png"
   })
 
-  win.loadFile('start.html')
+  win.loadFile('index.html')
 }
 
 const menu = Menu.buildFromTemplate([])

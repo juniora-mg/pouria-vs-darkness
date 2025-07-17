@@ -1,49 +1,49 @@
-import Juniora, {image, size, sound} from './core/juniora-mg.js'
+import Juniora, {image, size, sound} from '../core/juniora-mg.js'
 
 const game = new Juniora
 
 game.characters(
     {
         pouria: {
-            avatar: ('./images/pouria.jpg'),
+            avatar: ('../images/pouria.jpg'),
             size: 'xx-lg',
             health: 6000
         },
         gun: {
-            avatar: ('./images/gun.png'),
+            avatar: ('../images/gun.png'),
             size: 'md',
             direction: 'right',
         },
         ammo: {
-            avatar: ('./images/ammo.png'),
+            avatar: ('../images/ammo.png'),
             size: 'x-sm',
             flip: true
         },
         gun2: {
-            avatar: ('./images/gun2.png'),
+            avatar: ('../images/gun2.png'),
             size: 'xx-lg',
             direction: 'right',
         },
         ammo2: {
-            avatar: ('./images/ammo2.png'),
+            avatar: ('../images/ammo2.png'),
             size: 'x-sm'
         },
         gun3: {
-            avatar: ('./images/gun3.png'),
+            avatar: ('../images/gun3.png'),
             size: 'xx-lg',
             direction: 'right',
         },
         ammo3: {
-            avatar: ('./images/ammo3.png'),
+            avatar: ('../images/ammo3.png'),
             size: 'x-sm'
         },
         netaniaho: {
-            avatar: ('./images/neta.jpg'),
+            avatar: ('../images/neta.jpg'),
             size: 'md',
             health: 600,   
         },
         Trump: {
-            avatar: './images/trump.jpg',
+            avatar: '../images/trump.jpg',
             size: 'x-lg',
             health: 800
         }
@@ -94,7 +94,7 @@ game.setup(
             function fillAmmo() {
                 ammoMonitor.innerHTML = ''
                 for (let i = 0; i <ammoCount; i++) {
-                    let ammo = image('./images/ammo' + pouriaAmmo +'.png')
+                    let ammo = image('../images/ammo' + pouriaAmmo +'.png')
                     ammo.style.transform = pouriaAmmo === '' ? 'rotate(90deg)' : 'rotate(270deg)'
                     ammo.width = 20
                     ammoMonitor.appendChild(ammo)
@@ -249,7 +249,7 @@ function exitGame() {
     console.log(conf);
     if (conf) {       
         localStorage.record = localStorage.kills > localStorage.record ? localStorage.kills : localStorage.record
-        window.location.href = "start.html"
+        location.assign("./index.html")
     }
 }
 document.querySelector("#exit").addEventListener("click", exitGame)
