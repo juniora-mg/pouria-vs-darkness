@@ -54,8 +54,10 @@ game.setup(
     e => {
             localStorage.kills = 0
             localStorage.record = localStorage.record === undefined ? 0 : localStorage.record
+            localStorage.money = localStorage.money === undefined ? 0 : localStorage.money
             document.getElementById('kills').innerText = localStorage.kills
             document.getElementById('record').innerText = localStorage.record
+            document.getElementById('money').innerText = localStorage.money
           
             // POURIA
             const pouria = e.spawnCharacter('pouria')

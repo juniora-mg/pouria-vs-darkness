@@ -99,12 +99,13 @@ li {
 #banner {
     float: right;
     display: flex;
-    flex-direction: column;
+    direction: rtl;
+    flex-direction: row;
     padding: 10px;
 }
 
 #kills {
-    margin-bottom: 10px;
+    margin: 0 5px;
     padding: 10px 20px;
     background: white;
     border-radius: 10px;
@@ -113,9 +114,19 @@ li {
 }
 
 #record {
+    margin: 0 5px;
     text-align: center;
     padding: 10px 20px;
     background: gold;
+    color:white;
+    border-radius: 10px;
+}
+
+#money {
+    margin: 0 5px;
+    text-align: center;
+    padding: 10px 20px;
+    background: #00ed00;
     color:white;
     border-radius: 10px;
 }
