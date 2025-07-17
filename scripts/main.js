@@ -66,22 +66,26 @@ game.setup(
             e.keyEvent('1', changeGunTo7Tir)
             e.keyEvent('۱', changeGunTo7Tir)
             const changeGunToRifle = () => {
-                pouria.untake(pouriaGun)
-                pouriaGun = pouria.take('gun2')
-                pouriaAmmo = '2'
-                allowFillAmmo = true
-                ammoCount = 12
-                fillAmmo()
+                if(localStorage.allowgun2 == 'true') {
+                    pouria.untake(pouriaGun)
+                    pouriaGun = pouria.take('gun2')
+                    pouriaAmmo = '2'
+                    allowFillAmmo = true
+                    ammoCount = 12
+                    fillAmmo()
+                }
             }
             e.keyEvent('2', changeGunToRifle)
             e.keyEvent('۲', changeGunToRifle)
             const changeGunToLeaser = () => {
-                pouria.untake(pouriaGun)
-                pouriaGun = pouria.take('gun3')
-                pouriaAmmo = '3'
-                allowFillAmmo = true
-                ammoCount = 50
-                fillAmmo()
+                if (localStorage.allowgun3 == 'true') {
+                    pouria.untake(pouriaGun)
+                    pouriaGun = pouria.take('gun3')
+                    pouriaAmmo = '3'
+                    allowFillAmmo = true
+                    ammoCount = 50
+                    fillAmmo()
+                }
             }
             e.keyEvent('3', changeGunToLeaser)
             e.keyEvent('۳', changeGunToLeaser)

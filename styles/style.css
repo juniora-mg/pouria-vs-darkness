@@ -130,3 +130,18 @@ li {
     color:white;
     border-radius: 10px;
 }
+
+button.small {
+    width: auto;
+    display: inline;
+}
+
+.float-left {
+    float: left;
+    margin-left: 10px;
+}
+
+.float-right {
+    float: right !important;
+    margin-right: 10px;
+}
