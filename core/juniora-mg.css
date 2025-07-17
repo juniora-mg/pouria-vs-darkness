@@ -54,6 +54,10 @@ body {
     filter: sepia(100%) saturate(1000%) hue-rotate(0deg) brightness(50%);
 }
 
+.green-filter {
+    filter: hue-rotate(260deg);
+}
+
 .gray-filter {
     filter: grayscale(100%);
     transition: .5s;

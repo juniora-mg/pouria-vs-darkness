@@ -312,7 +312,7 @@ class Juniora {
                         }, 25)
 
                     },
-                    health(health='current', effects=false) {
+                    health(health='current', effects=false, effectType='red', effectTime=250) {
                         const character = document.querySelector(`#jmg-${time}-character-${name}`)
                         if (character.getAttribute('health') !== null && +(character.getAttribute('health')) > 0) {
                             if (health === 'current') {
@@ -322,8 +322,8 @@ class Juniora {
                             document.querySelector('#jmg-'+ time + '-health-monitor-' + name).value = health
     
                             if (effects) {
-                                character.classList.add('red-filter')
-                                setTimeout(() => character.classList.remove('red-filter'), 250)
+                                character.classList.add(`${effectType}-filter`)
+                                setTimeout(() => character.classList.remove(`${effectType}-filter`), effectTime)
                             }
     
                             if (health <= 0) {

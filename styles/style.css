@@ -131,6 +131,15 @@ li {
     border-radius: 10px;
 }
 
+#medic {
+    margin: 0 5px;
+    text-align: center;
+    padding: 10px 20px;
+    background: red;
+    color:white;
+    border-radius: 10px;
+}
+
 button.small {
     width: auto;
     display: inline;

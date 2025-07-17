@@ -1,6 +1,8 @@
 localStorage.money = localStorage.money === undefined ? 0 : localStorage.money
 document.getElementById('money').innerText = localStorage.money
 
+localStorage.allowgun1 = 'true'
+
 import {changeMoney} from './money.js'
 
 function bought(id) {
@@ -28,6 +30,11 @@ const shopItems = [
         type: 'gun',
         price: 20000
     },
+    {
+        id: "medic1",
+        type: "medic",
+        price: 100
+    }
 ]
 
 function prepareItems() {
@@ -57,7 +64,7 @@ function prepareItems() {
                     if(conf) {
 
                         changeMoney(-price)
-                        if (type === 'gun') {
+                        if (type === 'gun' || type === 'medic') {
                             localStorage[`allow${id}`] = true
                         }
                         location.reload()

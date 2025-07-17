@@ -89,6 +89,19 @@ game.setup(
             }
             e.keyEvent('3', changeGunToLeaser)
             e.keyEvent('۳', changeGunToLeaser)
+            
+            function useMedic() {
+                if (localStorage.allowmedic1 == 'true' && pouria.health() < 6000) {
+                    pouria.health(6000, true, 'green', 2000)
+                    localStorage.removeItem('allowmedic1')
+                    document.getElementById('medic').innerText = 'جون پر کنتو استفاده کردی'
+
+                }
+            }
+            e.keyEvent('m', useMedic)
+            e.keyEvent('M', useMedic)
+            e.keyEvent('پ', useMedic)
+            e.keyEvent(',', useMedic)
 
             localStorage.kills = 0
             localStorage.record = localStorage.record === undefined ? 0 : localStorage.record
@@ -96,6 +109,14 @@ game.setup(
             document.getElementById('kills').innerText = localStorage.kills
             document.getElementById('record').innerText = localStorage.record
             document.getElementById('money').innerText = localStorage.money
+
+            if (localStorage.allowmedic1 === 'true') 
+            {
+                document.getElementById('medic').innerText = 'جون پر کن داری'
+            }
+            else {
+                document.getElementById('medic').innerText = 'جون پر کن نداری'
+            }
           
             // POURIA
             const pouria = e.spawnCharacter('pouria')
