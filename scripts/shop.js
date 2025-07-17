@@ -28,21 +28,6 @@ const shopItems = [
         type: 'gun',
         price: 20000
     },
-    {
-        id: "ammo1",
-        type: 'ammo',
-        price: 2
-    },
-    {
-        id: "ammo2",
-        type: 'ammo',
-        price: 10
-    },
-    {
-        id: "ammo3",
-        type: 'ammo',
-        price: 100
-    }
 ]
 
 function prepareItems() {
