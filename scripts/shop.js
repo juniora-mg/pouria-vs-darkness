@@ -49,13 +49,19 @@ function prepareItems() {
         }
         else {
             btn.addEventListener('click', () => {
-                let conf = confirm(`میخوای ${price} تا پول بدی عوضش اینو بخری؟`)
-                if(conf) {
-                    changeMoney(-price)
-                    if (type === 'gun') {
-                        localStorage[`allow${id}`] = true
+                if (+(localStorage.money) < price) {
+                    alert(`داش پولت نمیرسه. باید ${price-localStorage.money} تا پول دیگه جمع کنی`)
+                }
+                else {
+                    let conf = confirm(`میخوای ${price} تا پول بدی عوضش اینو بخری؟`)
+                    if(conf) {
+
+                        changeMoney(-price)
+                        if (type === 'gun') {
+                            localStorage[`allow${id}`] = true
+                        }
+                        location.reload()
                     }
-                    location.reload()
                 }
             })
         }
