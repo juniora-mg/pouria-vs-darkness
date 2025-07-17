@@ -150,11 +150,11 @@ game.setup(
             })
             e.keyEvent('Control', () => {
                 if (allowFillAmmo) {
+                    ammoCount = pouriaAmmo === '' ? 7 : (pouriaAmmo === '2' ? 12 : 50)
                     fillAmmo()
                     sound('../audios/change.mp3')
                     allowFillAmmo = false
                 }
-                ammoCount = pouriaAmmo === '' ? 7 : (pouriaAmmo === '2' ? 12 : 50)
             })
 
             setInterval(() => {
@@ -185,6 +185,7 @@ game.setup(
                         spawnNetaniaho()
                     }
                     localStorage.kills = +(localStorage.kills)+1
+                    localStorage.record = localStorage.kills > localStorage.record ? localStorage.kills : localStorage.record
                     document.getElementById('kills').innerText = localStorage.kills
                 })
 
@@ -228,6 +229,7 @@ game.setup(
                     changeMoney(8)
                     spawnTrump()
                     localStorage.kills = +(localStorage.kills)+1
+                    localStorage.record = localStorage.kills > localStorage.record ? localStorage.kills : localStorage.record
                     document.getElementById('kills').innerText = localStorage.kills
                 })
             
