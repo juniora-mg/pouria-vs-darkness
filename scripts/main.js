@@ -1,6 +1,18 @@
 import Juniora, {image, size, sound} from '../core/juniora-mg.js'
 import { changeMoney } from './money.js'
 
+// constants
+const DAMAGES = {
+    ammo: 30, // 7 TIR
+    ammo2: 75, // Rifle
+    ammo3: 200, // LeaserGun
+}
+const MAX_HEALTH = {
+    pouria: 6000,
+    netaniaho: 600,
+    Trump: 800
+}
+
 const game = new Juniora
 
 game.characters(
@@ -8,7 +20,7 @@ game.characters(
         pouria: {
             avatar: ('../images/pouria.jpg'),
             size: 'xx-lg',
-            health: 6000
+            health: MAX_HEALTH['pouria']
         },
         gun: {
             avatar: ('../images/gun.png'),
@@ -41,12 +53,12 @@ game.characters(
         netaniaho: {
             avatar: ('../images/neta.jpg'),
             size: 'md',
-            health: 600,   
+            health: MAX_HEALTH['netaniaho'],   
         },
         Trump: {
             avatar: '../images/trump.jpg',
             size: 'x-lg',
-            health: 800
+            health: MAX_HEALTH['Trump']
         }
     }
 )
@@ -55,8 +67,7 @@ game.setup(
     e => {
             // functions
             const pouriaHit = name => {
-                let damage = name === 'ammo' ? 20 : 50
-                pouria.health(pouria.health()-damage, true)
+                pouria.health(pouria.health()-DAMAGES[name], true)
                 return true
             }
 
@@ -97,8 +108,8 @@ game.setup(
             e.keyEvent('۳', changeGunToLeaser)
             
             function useMedic() {
-                if (localStorage.allowmedic1 == 'true' && pouria.health() < 6000) {
-                    pouria.health(6000, true, 'green', 2000)
+                if (localStorage.allowmedic1 == 'true' && pouria.health() < MAX_HEALTH['pouria']) {
+                    pouria.health(MAX_HEALTH['pouria'], true, 'green', 2000)
                     localStorage.removeItem('allowmedic1')
                     document.getElementById('msg').innerText = 'جون پر کنتو استفاده کردی'
                 }
@@ -220,8 +231,7 @@ game.setup(
                 netaniaho.take('gun')
                 netaniaho.moveLeft(1)
                 netaniaho.onHit((name) => {
-                    let damage = name === 'ammo' ? 20 : (name === 'ammo2' ? 50 : 200)
-                    netaniaho.health(netaniaho.health()-damage, true)
+                    netaniaho.health(netaniaho.health()-DAMAGES[name], true)
                     return true
                 })
                 netaniaho.onDied(() => {
@@ -271,8 +281,7 @@ game.setup(
                 Trump.take('gun2')
                 Trump.moveLeft(1)
                 Trump.onHit((name) => {
-                    let damage = name === 'ammo2' ? 50 : (name === 'ammo3' ? 200 : 20)
-                    Trump.health(Trump.health()-damage, true)
+                    Trump.health(Trump.health()-DAMAGES[name], true)
                     return true
                 })
                 Trump.onDied(() => {
