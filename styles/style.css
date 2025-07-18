@@ -1,6 +1,6 @@
 @font-face {
     font-family: vazir;
-    src: url(./fonts/Vazirmatn-Regular.ttf);
+    src: url(../fonts/Vazirmatn-Regular.ttf);
 }
 
 * {
@@ -17,7 +17,7 @@ html {
 }
 
 body {
-    background: url('./images/background.jpg') center no-repeat;
+    background: url('../images/background.jpg') center no-repeat;
     background-size: cover;
     height: 100%;
 }
@@ -99,12 +99,13 @@ li {
 #banner {
     float: right;
     display: flex;
-    flex-direction: column;
+    direction: rtl;
+    flex-direction: row;
     padding: 10px;
 }
 
 #kills {
-    margin-bottom: 10px;
+    margin: 0 5px;
     padding: 10px 20px;
     background: white;
     border-radius: 10px;
@@ -113,9 +114,43 @@ li {
 }
 
 #record {
+    margin: 0 5px;
     text-align: center;
     padding: 10px 20px;
     background: gold;
     color:white;
     border-radius: 10px;
+}
+
+#money {
+    margin: 0 5px;
+    text-align: center;
+    padding: 10px 20px;
+    background: #00ed00;
+    color:white;
+    border-radius: 10px;
+}
+
+#msg {
+    margin: 0 5px;
+    text-align: center;
+    padding: 10px 20px;
+    background: black;
+    color:white;
+    border-radius: 10px;
+}
+
+button.small {
+    width: auto;
+    display: inline;
+}
+
+.float-left {
+    float: left;
+    margin-left: 10px;
+}
+
+.float-right {
+    float: right !important;
+    margin-right: 10px;
 }
