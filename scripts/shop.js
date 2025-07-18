@@ -23,12 +23,12 @@ const shopItems = [
     {
         id: "gun2",
         type: 'gun',
-        price: 1000
+        price: 900
     },
     {
         id: "gun3",
         type: 'gun',
-        price: 20000
+        price: 5000
     },
     {
         id: "medic1",
