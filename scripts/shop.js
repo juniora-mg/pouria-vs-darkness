@@ -32,8 +32,13 @@ const shopItems = [
     },
     {
         id: "medic1",
-        type: "medic",
-        price: 100
+        type: "power",
+        price: 150
+    },
+    {
+        id: "soul",
+        type: "power",
+        price: 50
     }
 ]
 
@@ -64,7 +69,7 @@ function prepareItems() {
                     if(conf) {
 
                         changeMoney(-price)
-                        if (type === 'gun' || type === 'medic') {
+                        if (type === 'gun' || type === 'power') {
                             localStorage[`allow${id}`] = true
                         }
                         location.reload()

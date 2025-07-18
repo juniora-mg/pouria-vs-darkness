@@ -268,6 +268,9 @@ class Juniora {
                         const character = document.querySelector(`#jmg-${time}-character-${name}`)
                         return character.getAttribute("direction")
                     },
+                    getElement() {
+                        return document.querySelector(`#jmg-${time}-character-${name}`)
+                    },
                     activateUserControlls() {
                         const character = document.querySelector(`#jmg-${time}-character-${name}`)
                         document.addEventListener("keydown", e => {

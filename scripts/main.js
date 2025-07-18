@@ -54,6 +54,12 @@ game.characters(
 game.setup(
     e => {
             // functions
+            const pouriaHit = name => {
+                let damage = name === 'ammo' ? 20 : 50
+                pouria.health(pouria.health()-damage, true)
+                return true
+            }
+
             // CHANGE GUN 
             const changeGunTo7Tir = () => {
                 pouria.untake(pouriaGun)
@@ -94,14 +100,33 @@ game.setup(
                 if (localStorage.allowmedic1 == 'true' && pouria.health() < 6000) {
                     pouria.health(6000, true, 'green', 2000)
                     localStorage.removeItem('allowmedic1')
-                    document.getElementById('medic').innerText = 'جون پر کنتو استفاده کردی'
-
+                    document.getElementById('msg').innerText = 'جون پر کنتو استفاده کردی'
                 }
+
             }
             e.keyEvent('m', useMedic)
             e.keyEvent('M', useMedic)
             e.keyEvent('پ', useMedic)
             e.keyEvent(',', useMedic)
+
+            var invisible = false
+            function useSoul() {
+                if (localStorage.allowsoul == 'true') {
+                    invisible = true
+                    pouria.getElement().classList.add('transparent')
+                    pouria.onHit(undefined)
+                    localStorage.removeItem('allowsoul')
+                    document.getElementById('msg').innerText = 'روح شوتو استفاده کردی'
+                    setTimeout(()=>{
+                        invisible = false
+                        pouria.getElement().classList.remove('transparent')
+                        pouria.onHit(pouriaHit)
+                    }, 10000)
+                }
+            }
+            e.keyEvent('n', useSoul)
+            e.keyEvent('N', useSoul)
+            e.keyEvent('د', useSoul)
 
             localStorage.kills = 0
             localStorage.record = localStorage.record === undefined ? 0 : localStorage.record
@@ -110,12 +135,18 @@ game.setup(
             document.getElementById('record').innerText = localStorage.record
             document.getElementById('money').innerText = localStorage.money
 
-            if (localStorage.allowmedic1 === 'true') 
+            if (localStorage.allowmedic1 === 'true' && localStorage.allowsoul === 'true') 
             {
-                document.getElementById('medic').innerText = 'جون پر کن داری'
+                document.getElementById('msg').innerText = 'جون پر کن و روح شو داری'
+            }
+            else if (localStorage.allowmedic1 === 'true') {
+                document.getElementById('msg').innerText = 'جون پر کن داری'
+            }
+            else if (localStorage.allowsoul === 'true') {
+                document.getElementById('msg').innerText = 'روح شو داری'
             }
             else {
-                document.getElementById('medic').innerText = 'جون پر کن نداری'
+                document.getElementById('msg').innerText = 'هیچی نداری'
             }
           
             // POURIA
@@ -125,11 +156,7 @@ game.setup(
             let pouriaGun = pouria.take('gun')
             let pouriaAmmo = ''
             pouria.moveRight(400)
-            pouria.onHit((name) => {
-                let damage = name === 'ammo' ? 20 : 50
-                pouria.health(pouria.health()-damage, true)
-                return true
-            })
+            pouria.onHit(pouriaHit)
             pouria.onDied(() => {
                 setTimeout(() => {
                     localStorage.record = localStorage.kills > localStorage.record ? localStorage.kills : localStorage.record
@@ -211,11 +238,13 @@ game.setup(
                 })
 
                 const netaniahoShoot = setInterval(() => {
-                    if (pouria.getLocation()[1] > netaniaho.getLocation()[1] && netaniaho.getDirection() === 'left') {
-                        netaniaho.moveRight(1)
-                    }
-                    else if (pouria.getLocation()[1] < netaniaho.getLocation()[1] && netaniaho.getDirection() === 'right') {
-                        netaniaho.moveLeft(1)
+                    if (!invisible) {
+                        if (pouria.getLocation()[1] > netaniaho.getLocation()[1] && netaniaho.getDirection() === 'left') {
+                            netaniaho.moveRight(1)
+                        }
+                        else if (pouria.getLocation()[1] < netaniaho.getLocation()[1] && netaniaho.getDirection() === 'right') {
+                            netaniaho.moveLeft(1)
+                        }
                     }
                     let spawnPoint
                     if (netaniaho.getDirection() === 'right') {
@@ -255,11 +284,13 @@ game.setup(
                 })
             
                 const TrumpShoot = setInterval(() => {
-                    if (pouria.getLocation()[1] > Trump.getLocation()[1] && Trump.getDirection() === 'left') {
-                        Trump.moveRight(1)
-                    }
-                    else if (pouria.getLocation()[1] < Trump.getLocation()[1] && Trump.getDirection() === 'right') {
-                        Trump.moveLeft(1)
+                    if (!invisible) {
+                        if (pouria.getLocation()[1] > Trump.getLocation()[1] && Trump.getDirection() === 'left') {
+                            Trump.moveRight(1)
+                        }
+                        else if (pouria.getLocation()[1] < Trump.getLocation()[1] && Trump.getDirection() === 'right') {
+                            Trump.moveLeft(1)
+                        }
                     }
                     let spawnPoint
                     if (Trump.getDirection() === 'right') {

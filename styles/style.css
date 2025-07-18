@@ -131,11 +131,11 @@ li {
     border-radius: 10px;
 }
 
-#medic {
+#msg {
     margin: 0 5px;
     text-align: center;
     padding: 10px 20px;
-    background: red;
+    background: black;
     color:white;
     border-radius: 10px;
 }
