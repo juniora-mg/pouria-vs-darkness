@@ -170,7 +170,6 @@ game.setup(
             pouria.onHit(pouriaHit)
             pouria.onDied(() => {
                 setTimeout(() => {
-                    localStorage.record = localStorage.kills > localStorage.record ? localStorage.kills : localStorage.record
                     alert('باختی!\nرو دکمه اوکی بزن تا بازی از اول شروع شه')
                     location.reload()
                 }, 1200)
@@ -236,15 +235,15 @@ game.setup(
                 })
                 netaniaho.onDied(() => {
                     changeMoney(6)
+                    localStorage.kills = +(localStorage.kills)+1
+                    localStorage.record = +(localStorage.kills) > +(localStorage.record) ? localStorage.kills : localStorage.record
+                    document.getElementById('kills').innerText = localStorage.kills
                     if (localStorage.kills === '20') {
                         spawnTrump()
                     }
                     else {
                         spawnNetaniaho()
                     }
-                    localStorage.kills = +(localStorage.kills)+1
-                    localStorage.record = localStorage.kills > localStorage.record ? localStorage.kills : localStorage.record
-                    document.getElementById('kills').innerText = localStorage.kills
                 })
 
                 const netaniahoShoot = setInterval(() => {
@@ -288,7 +287,7 @@ game.setup(
                     changeMoney(8)
                     spawnTrump()
                     localStorage.kills = +(localStorage.kills)+1
-                    localStorage.record = localStorage.kills > localStorage.record ? localStorage.kills : localStorage.record
+                    localStorage.record = +(localStorage.kills) > +(localStorage.record) ? localStorage.kills : localStorage.record
                     document.getElementById('kills').innerText = localStorage.kills
                 })
             
@@ -325,7 +324,6 @@ function exitGame() {
     let conf = confirm("واقعا میخوای بری بیرون؟");
     console.log(conf);
     if (conf) {       
-        localStorage.record = localStorage.kills > localStorage.record ? localStorage.kills : localStorage.record
         location.assign("./index.html")
     }
 }
