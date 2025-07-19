@@ -23,7 +23,28 @@ export default function spawnTrump(e, pouria) {
         document.getElementById('kills').innerText = localStorage.kills
     })
 
-    const TrumpShoot = setInterval(() => {
+    // Sin-Random moves
+    const amplitude = 50 + Math.random() * 50
+    const frequency = 0.02 + Math.random() + 0.02
+    const phase = Math.random() * Math.PI * 2
+    let t = 0
+
+    const TrumpScript = setInterval(() => {
+        // handle moves
+        t++
+        const offsetX = amplitude * Math.sin(frequency * t + phase)
+        if (offsetX > 0 && Trump.getLocation()[1] - offsetX >= 0) {
+            Trump.moveLeft(offsetX)
+        }
+        else if (Trump.getLocation()[1] + Trump.getSize()[1] + offsetX <= window.innerWidth) {
+            Trump.moveRight(-offsetX)
+        }
+
+        if (Math.random() < 0.2) {
+            Trump.jump()
+        }
+
+        // set direction
         if (!state.invisible) {
             if (pouria.getLocation()[1] > Trump.getLocation()[1] && Trump.getDirection() === 'left') {
                 Trump.moveRight(1)
@@ -32,6 +53,8 @@ export default function spawnTrump(e, pouria) {
                 Trump.moveLeft(1)
             }
         }
+
+        // shoot
         let spawnPoint
         if (Trump.getDirection() === 'right') {
             spawnPoint = [Trump.getLocation()[0] + Trump.getSize()[0]*0.5,Trump.getLocation()[1] + Trump.getSize()[1]]
@@ -42,7 +65,7 @@ export default function spawnTrump(e, pouria) {
         e.shoot('ammo2', spawnPoint, Trump.getDirection(), 50)
         sound('../audios/bang.mp3')
         if (Trump.health() <= 0) {
-            clearInterval(TrumpShoot)
+            clearInterval(TrumpScript)
         }
     }, 800)
 }
