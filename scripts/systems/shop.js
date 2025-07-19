@@ -3,7 +3,7 @@ document.getElementById('money').innerText = localStorage.money
 
 localStorage.allowgun1 = 'true'
 
-import {changeMoney} from './money.js'
+import {changeMoney} from './economy.js'
 
 function bought(id) {
     const el = document.getElementById(id)
