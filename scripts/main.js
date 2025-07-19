@@ -11,7 +11,6 @@ game.start()
 
 function exitGame() {
     let conf = confirm("واقعا میخوای بری بیرون؟");
-    console.log(conf);
     if (conf) {       
         location.assign("./index.html")
     }
