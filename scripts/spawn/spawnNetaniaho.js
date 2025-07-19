@@ -25,14 +25,33 @@ export default function spawnNetaniaho(e, pouria) {
         if (localStorage.kills === '20') {
             spawnTrump(e, pouria)
         }
-        else {
-            console.log(123);
-            
+        else {      
             spawnNetaniaho(e, pouria)
         }
     })
 
-    const netaniahoShoot = setInterval(() => {
+    // Sin-Random moves
+    const amplitude = 50 + Math.random() * 50
+    const frequency = 0.02 + Math.random() + 0.02
+    const phase = Math.random() * Math.PI * 2
+    let t = 0
+
+    const netaniahoScript = setInterval(() => {
+        // handle moves
+        t++
+        const offsetX = amplitude * Math.sin(frequency * t + phase)
+        if (offsetX > 0 && netaniaho.getLocation()[1] - offsetX >= 0) {
+            netaniaho.moveLeft(offsetX)
+        }
+        else if (netaniaho.getLocation()[1] + netaniaho.getSize()[1] + offsetX <= window.innerWidth) {
+            netaniaho.moveRight(-offsetX)
+        }
+
+        if (Math.random() < 0.2) {
+            netaniaho.jump()
+        }
+
+        // set direction
         if (!state.invisible) {
             if (pouria.getLocation()[1] > netaniaho.getLocation()[1] && netaniaho.getDirection() === 'left') {
                 netaniaho.moveRight(1)
@@ -41,6 +60,8 @@ export default function spawnNetaniaho(e, pouria) {
                 netaniaho.moveLeft(1)
             }
         }
+
+        // shoot
         let spawnPoint
         if (netaniaho.getDirection() === 'right') {
             spawnPoint = [netaniaho.getLocation()[0] + netaniaho.getSize()[0]*0.5,netaniaho.getLocation()[1] + netaniaho.getSize()[1]]
@@ -51,7 +72,7 @@ export default function spawnNetaniaho(e, pouria) {
         e.shoot('ammo', spawnPoint, netaniaho.getDirection(), 50)
         sound('../audios/bang.mp3')
         if (netaniaho.health() <= 0) {
-            clearInterval(netaniahoShoot)
+            clearInterval(netaniahoScript)
         }
     }, 800)
 }
