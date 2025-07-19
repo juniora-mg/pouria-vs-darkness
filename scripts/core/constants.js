@@ -1,7 +1,7 @@
 const DAMAGES = {
     ammo: 30, // 7 TIR
     ammo2: 75, // Rifle
-    ammo3: 2000, // LeaserGun
+    ammo3: 200, // LeaserGun
 }
 const MAX_HEALTH = {
     pouria: 6000,
