@@ -13,6 +13,8 @@ sessionStorage.clear()
 class Juniora {
     setup(method) {
         this.method = method
+        sessionStorage['jmg-counter'] = 0
+        sessionStorage['jmg-taking-counter'] = 0
     }
     characters(characters) {
         this.characters = characters
@@ -35,6 +37,8 @@ class Juniora {
             },
             spawnCharacter(name) {
                 const time = Date.now()
+                const counter = +(sessionStorage['jmg-counter'])
+                sessionStorage['jmg-counter'] = counter + 1
                 let character = this.charatersList[name]
                 if (character === undefined) {
                     console.error(`'${name}' is not a character`)
@@ -68,7 +72,7 @@ class Juniora {
                     character.size = 'md'
                 }
                 avatar.style = 'width: ' + sizes[character.size]
-                avatar.id = 'jmg-' +time+ '-character-' + name
+                avatar.id = 'jmg-' +time+'-'+counter+ '-character-' + name
                 avatar.classList.add('jmg-characters')
                 avatar.setAttribute('top', '0')
                 avatar.setAttribute('left', '0')
@@ -120,7 +124,7 @@ class Juniora {
                     },
                     moveUp(steps=8) {
                         const oldLocation = this.getLocation()
-                        const character = document.querySelector(`#jmg-${time}-character-${name}`)
+                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
                         character.setAttribute('top', +(character.getAttribute('top'))-steps)
                         character.style.top = character.getAttribute('top') + "px"
 
@@ -145,7 +149,7 @@ class Juniora {
                     moveDown(steps=8) {
                         const oldLocation = this.getLocation()
 
-                        const character = document.querySelector(`#jmg-${time}-character-${name}`)
+                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
                         character.setAttribute('top', +(character.getAttribute('top'))+steps)
                         character.style.top = character.getAttribute('top') + "px"
 
@@ -175,7 +179,7 @@ class Juniora {
                     moveLeft(steps=8) {
                         const oldLocation = this.getLocation()
 
-                        const character = document.querySelector(`#jmg-${time}-character-${name}`)
+                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
                         character.setAttribute('left', +(character.getAttribute('left'))-steps)
                         character.style.left = character.getAttribute('left') + "px"
                         
@@ -211,7 +215,7 @@ class Juniora {
                     moveRight(steps=8) {
                         const oldLocation = this.getLocation()
 
-                        const character = document.querySelector(`#jmg-${time}-character-${name}`)
+                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
                         character.setAttribute('left', +(character.getAttribute('left'))+steps)
                         character.style.left = character.getAttribute('left') + "px"
 
@@ -246,7 +250,7 @@ class Juniora {
                     jump(steps=350) {
                         const oldLocation = this.getLocation()
 
-                        const character = document.querySelector(`#jmg-${time}-character-${name}`)
+                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
                         if (character.getAttribute("physics") === "active" && +(character.getAttribute("top"))+character.clientHeight >= document.body.clientHeight) {
                             this.moveUp(steps)
                         }
@@ -257,22 +261,22 @@ class Juniora {
                             })}
                     },
                     getLocation() {
-                        const character = document.querySelector(`#jmg-${time}-character-${name}`)
+                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
                         return [+(character.getAttribute('top')), +(character.getAttribute('left'))]
                     },
                     getSize() {
-                        const character = document.querySelector(`#jmg-${time}-character-${name}`)
+                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
                         return [character.clientHeight, character.clientWidth]
                     },
                     getDirection() {
-                        const character = document.querySelector(`#jmg-${time}-character-${name}`)
+                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
                         return character.getAttribute("direction")
                     },
                     getElement() {
-                        return document.querySelector(`#jmg-${time}-character-${name}`)
+                        return document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
                     },
                     activateUserControlls() {
-                        const character = document.querySelector(`#jmg-${time}-character-${name}`)
+                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
                         document.addEventListener("keydown", e => {
                             switch (e.key) {
                                 case 'ArrowDown':
@@ -305,7 +309,7 @@ class Juniora {
 
                     },
                     activatePhysics() {
-                        const character = document.querySelector(`#jmg-${time}-character-${name}`)
+                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
                         character.setAttribute("physics", "active")
 
                         setInterval(() => {
@@ -316,12 +320,12 @@ class Juniora {
 
                     },
                     health(health='current', effects=false, effectType='red', effectTime=250) {
-                        const character = document.querySelector(`#jmg-${time}-character-${name}`)
+                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
                         if (character.getAttribute('health') !== null && +(character.getAttribute('health')) > 0) {
                             if (health === 'current') {
-                                health = +(document.querySelector(`#jmg-${time}-character-${name}`).getAttribute('health'))
+                                health = +(document.querySelector(`#jmg-${time}-${counter}-character-${name}`).getAttribute('health'))
                             }
-                            document.querySelector(`#jmg-${time}-character-${name}`).setAttribute('health', health)
+                            document.querySelector(`#jmg-${time}-${counter}-character-${name}`).setAttribute('health', health)
                             document.querySelector('#jmg-'+ time + '-health-monitor-' + name).value = health
     
                             if (effects) {
@@ -351,18 +355,19 @@ class Juniora {
                         return 0
                     },
                     despawn() {
-                        document.querySelector(`#jmg-${time}-character-${name}`).style.display = 'none'
+                        document.querySelector(`#jmg-${time}-${counter}-character-${name}`).style.display = 'none'
                     },
                     spawn() {
-                        document.querySelector(`#jmg-${time}-character-${name}`).style.display = 'block'
+                        document.querySelector(`#jmg-${time}-${counter}-character-${name}`).style.display = 'block'
                     },
                     untake(takedId) {
                         document.body.removeChild(document.getElementById(takedId))
-                        // character.removeAttribute('taked-id')
                     },
                     take(takingName) {
-                        const taker = document.querySelector(`#jmg-${time}-character-${name}`)
+                        const taker = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
                         const takingTime = Date.now()
+                        const takingCounter = +(sessionStorage['jmg-taking-counter'])
+                        sessionStorage['jmg-taking-counter'] = takingCounter + 1
                         const character = this.charatersList[takingName]
                         if (character === undefined) {
                             console.error(`'${takingName}' is not a character`)
@@ -377,7 +382,7 @@ class Juniora {
                         avatar.src = character.avatar
                         avatar.alt = 'Loaded by JunioraMG'
 
-                        taker.setAttribute('taked-id', `jmg-taked-${takingTime}-character-` + takingName)
+                        taker.setAttribute('taked-id', `jmg-taked-${takingTime}-${takingCounter}-character-` + takingName)
 
                         const sizes = {
                             'xx-sm': '20px',
@@ -393,7 +398,7 @@ class Juniora {
                         }
 
                         avatar.style = 'width: '+sizes[character.size]
-                        avatar.id = `jmg-taked-${takingTime}-character-${takingName}`
+                        avatar.id = `jmg-taked-${takingTime}-${takingCounter}-character-${takingName}`
                         avatar.classList.add('jmg-taked-characters')
                         let direction = character.direction === undefined ? 'right' : character.direction
                         if (direction === 'r') direction = 'right'
@@ -404,9 +409,9 @@ class Juniora {
 
                         document.body.appendChild(avatar)
 
-                        sessionStorage.setItem(takingName, `jmg-taked-${takingTime}-character-` + takingName)
+                        sessionStorage.setItem(takingName, `jmg-taked-${takingTime}-${takingCounter}-character-` + takingName)
 
-                        return `jmg-taked-${takingTime}-character-${takingName}`
+                        return `jmg-taked-${takingTime}-${takingCounter}-character-${takingName}`
                     }
                 }
             },
