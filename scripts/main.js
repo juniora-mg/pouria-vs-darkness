@@ -4,7 +4,7 @@ import entities from './core/entities.js'
 import setup from './setup.js'
 
 const game = new Juniora
-game.entities(entities)
+game.defineEntities(entities)
 game.setup(setup)
 game.start()
 

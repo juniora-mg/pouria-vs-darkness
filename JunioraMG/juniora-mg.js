@@ -73,7 +73,7 @@ class Juniora {
                 }
                 avatar.style = 'width: ' + sizes[entity.size]
                 avatar.id = 'jmg-' +time+'-'+counter+ '-entity-' + name
-                avatar.classList.add('jmg-entity')
+                avatar.classList.add('jmg-entities')
                 avatar.setAttribute('top', '0')
                 avatar.setAttribute('left', '0')
                 avatar.setAttribute('time', time)
@@ -149,7 +149,7 @@ class Juniora {
                     moveDown(steps=8) {
                         const oldLocation = this.getLocation()
 
-                        const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
+                        const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)                        
                         entity.setAttribute('top', +(entity.getAttribute('top'))+steps)
                         entity.style.top = entity.getAttribute('top') + "px"
 
@@ -399,7 +399,7 @@ class Juniora {
 
                         avatar.style = 'width: '+sizes[entity.size]
                         avatar.id = `jmg-attached-${attachedAt}-${attachingCounter}-entity-${targetName}`
-                        avatar.classList.add('jmg-attached-entity')
+                        avatar.classList.add('jmg-attached-entities')
                         let direction = entity.direction === undefined ? 'right' : entity.direction
                         if (direction === 'r') direction = 'right'
                         if (direction === 'l') direction = 'left'
