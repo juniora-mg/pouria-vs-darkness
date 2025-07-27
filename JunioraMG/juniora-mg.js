@@ -275,7 +275,7 @@ class Juniora {
                     getElement() {
                         return document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
                     },
-                    activateUserControlls() {
+                    enableInput() {
                         const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
                         document.addEventListener("keydown", e => {
                             switch (e.key) {
@@ -308,7 +308,7 @@ class Juniora {
                         })
 
                     },
-                    activatePhysics() {
+                    enablePhysics() {
                         const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
                         entity.setAttribute("physics", "active")
 
