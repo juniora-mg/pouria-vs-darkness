@@ -1,15 +1,15 @@
-import { size, sound } from "../../JunioraMG/juniora-mg.js"
+import { size, playSound } from "../../JunioraMG/juniora-mg.js"
 import { DAMAGES } from "../core/constants.js"
 import { changeMoney } from "../systems/economy.js"
 import state from "../core/state.js"
 
 export default function spawnTrump(e, pouria) {
-    const Trump = e.spawnCharacter('Trump')
-    Trump.activatePhysics()
+    const Trump = e.spawnEntity('Trump')
+    Trump.enablePhysics()
     let max = document.body.clientWidth - +(size('xx-lg'))
     let random = Math.floor(Math.random() * (max+1))
     Trump.moveRight(random)
-    Trump.take('gun2')
+    Trump.attach('gun2')
     Trump.moveLeft(1)
     Trump.onHit((name) => {
         Trump.health(Trump.health()-DAMAGES[name], true)
@@ -63,7 +63,7 @@ export default function spawnTrump(e, pouria) {
             spawnPoint = [Trump.getLocation()[0] + Trump.getSize()[0]*0.5, Trump.getLocation()[1]-30]
         }
         e.shoot('ammo2', spawnPoint, Trump.getDirection(), 50)
-        sound('../audios/bang.mp3')
+        playSound('../audios/bang.mp3')
         if (Trump.health() <= 0) {
             clearInterval(TrumpScript)
         }

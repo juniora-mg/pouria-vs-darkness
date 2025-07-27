@@ -251,7 +251,7 @@ class Juniora {
                         const oldLocation = this.getLocation()
 
                         const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
-                        if (entity.getAttribute("physics") === "active" && +(entity.getAttribute("top"))+entity.clientHeight >= document.body.clientHeight) {
+                        if (entity.getAttribute("physics") === "enable" && +(entity.getAttribute("top"))+entity.clientHeight >= document.body.clientHeight) {
                             this.moveUp(steps)
                         }
                         if (this.events.moved !== null) {
@@ -281,13 +281,13 @@ class Juniora {
                             switch (e.key) {
                                 case 'ArrowDown':
                                 case 's':
-                                    if (entity.getAttribute("physics") !== "active"){
+                                    if (entity.getAttribute("physics") !== "enable"){
                                         this.moveDown()
                                     }
                                     break;
                                 case 'ArrowUp':
                                 case 'w':
-                                    if (entity.getAttribute("physics") !== "active") {
+                                    if (entity.getAttribute("physics") !== "enable") {
                                         this.moveUp()
                                     }
                                     break;
@@ -310,7 +310,7 @@ class Juniora {
                     },
                     enablePhysics() {
                         const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
-                        entity.setAttribute("physics", "active")
+                        entity.setAttribute("physics", "enable")
 
                         setInterval(() => {
                             if (+(entity.getAttribute("top"))+entity.clientHeight < document.body.clientHeight) {
@@ -549,7 +549,7 @@ class Juniora {
                         if (ballTop > entityTop && ballTop < entityTop+entity.clientHeight && ballLeft > entityLeft && ballLeft < entityLeft+entity.clientWidth) {
                             const entityData = spawnedEntities[entity.getAttribute('entity') + entity.getAttribute('time')]
                             if (entityData.events.onHit !== undefined) {
-                                if (characterData.events.onHit(ballName)) {
+                                if (entityData.events.onHit(ballName)) {
                                     clearInterval(shootingBall)
                                     ball.style.display = 'none'
                                     document.body.removeChild(ball)

@@ -1,10 +1,10 @@
 import { pouriaHit, fillAmmo } from "../core/utils.js"
 
 export default (e) => {
-    const pouria = e.spawnCharacter('pouria')
-    pouria.activateUserControlls()
-    pouria.activatePhysics()
-    let pouriaGun = pouria.take('gun')
+    const pouria = e.spawnEntity('pouria')
+    pouria.enableInput()
+    pouria.enablePhysics()
+    let pouriaGun = pouria.attach('gun')
     let pouriaAmmo = ''
     pouria.moveRight(400)
     pouria.onHit(name => pouriaHit(name, pouria))

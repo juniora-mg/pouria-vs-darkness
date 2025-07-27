@@ -1,4 +1,4 @@
-import { size, sound } from "../../JunioraMG/juniora-mg.js"
+import { size, playSound } from "../../JunioraMG/juniora-mg.js"
 import { DAMAGES } from "../core/constants.js"
 import { changeMoney } from "../systems/economy.js"
 import state from "../core/state.js"
@@ -6,12 +6,12 @@ import state from "../core/state.js"
 import spawnTrump from "./spawnTrump.js"
 
 export default function spawnNetaniaho(e, pouria) {
-    const netaniaho = e.spawnCharacter('netaniaho')
-    netaniaho.activatePhysics()
+    const netaniaho = e.spawnEntity('netaniaho')
+    netaniaho.enablePhysics()
     let max = document.body.clientWidth - +(size('xx-lg'))
     let random = Math.floor(Math.random() * (max+1))
     netaniaho.moveRight(random)
-    netaniaho.take('gun')
+    netaniaho.attach('gun')
     netaniaho.moveLeft(1)
     netaniaho.onHit((name) => {
         netaniaho.health(netaniaho.health()-DAMAGES[name], true)
@@ -70,7 +70,7 @@ export default function spawnNetaniaho(e, pouria) {
             spawnPoint = [netaniaho.getLocation()[0] + netaniaho.getSize()[0]*0.5, netaniaho.getLocation()[1]-30]
         }
         e.shoot('ammo', spawnPoint, netaniaho.getDirection(), 50)
-        sound('../audios/bang.mp3')
+        playSound('../audios/bang.mp3')
         if (netaniaho.health() <= 0) {
             clearInterval(netaniahoScript)
         }

@@ -1,10 +1,10 @@
 import Juniora from '../JunioraMG/juniora-mg.js'
 
-import characters from './core/characters.js'
+import entities from './core/entities.js'
 import setup from './setup.js'
 
 const game = new Juniora
-game.characters(characters)
+game.entities(entities)
 game.setup(setup)
 game.start()
 
