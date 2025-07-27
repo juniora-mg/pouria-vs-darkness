@@ -16,8 +16,8 @@ class Juniora {
         sessionStorage['jmg-counter'] = 0
         sessionStorage['jmg-taking-counter'] = 0
     }
-    characters(characters) {
-        this.characters = characters
+    defineEntities(entities) {
+        this.entities = entities
     }
     start() {
         console.log("Welcome to JunioraMG Engine")
@@ -27,35 +27,35 @@ class Juniora {
         }
 
         const helpers = {
-            charatersList: this.characters,
-            spawnedCharacters: {},
+            entitiesList: this.entities,
+            spawnedEntities: {},
             keyEvent(key, handler) {
                 if (typeof key === 'string') key = [key]
                 document.addEventListener('keydown', e => {
                     if (key.includes(e.key)) handler()
                 })
             },
-            spawnCharacter(name) {
+            spawnEntity(name) {
                 const time = Date.now()
                 const counter = +(sessionStorage['jmg-counter'])
                 sessionStorage['jmg-counter'] = counter + 1
-                let character = this.charatersList[name]
-                if (character === undefined) {
-                    console.error(`'${name}' is not a character`)
+                let entity = this.entitiesList[name]
+                if (entity === undefined) {
+                    console.error(`'${name}' is not a entity`)
                     return 0
                 }
-                if (character.avatar === undefined) {
+                if (entity.avatar === undefined) {
                     console.error(`'${name}' doesn't have avatar`);
                     return 0
                 }
                 
                 const avatar = document.createElement('img')
-                avatar.src = character.avatar
+                avatar.src = entity.avatar
                 avatar.alt = 'Loaded by JunioraMG'
 
-                this.spawnedCharacters[name + time] = {
+                this.spawnedEntities[name + time] = {
                     isLive: true,
-                    id: 'jmg-' +time+ '-character-' + name,
+                    id: 'jmg-' +time+ '-entity-' + name,
                     events: {}
                 }
 
@@ -68,43 +68,43 @@ class Juniora {
                     'x-lg' : '210px',
                     'xx-lg': '250px'
                 }
-                if (!['xx-sm', 'x-sm', 'sm', 'md', 'lg', 'x-lg', 'xx-lg'].includes(character.size)) {
-                    character.size = 'md'
+                if (!['xx-sm', 'x-sm', 'sm', 'md', 'lg', 'x-lg', 'xx-lg'].includes(entity.size)) {
+                    entity.size = 'md'
                 }
-                avatar.style = 'width: ' + sizes[character.size]
-                avatar.id = 'jmg-' +time+'-'+counter+ '-character-' + name
-                avatar.classList.add('jmg-characters')
+                avatar.style = 'width: ' + sizes[entity.size]
+                avatar.id = 'jmg-' +time+'-'+counter+ '-entity-' + name
+                avatar.classList.add('jmg-entity')
                 avatar.setAttribute('top', '0')
                 avatar.setAttribute('left', '0')
                 avatar.setAttribute('time', time)
-                let direction = character.direction === undefined ? 'right' : character.direction
+                let direction = entity.direction === undefined ? 'right' : entity.direction
                 if (direction === 'r') direction = 'right'
                 if (direction === 'l') direction = 'left'
                 avatar.setAttribute('direction', direction)
-                if (character.dieSound !== undefined) avatar.setAttribute('die-sound', character.dieSound)
-                if (character.health !== undefined) {
-                    avatar.setAttribute('health', character.health)
+                if (entity.dieSound !== undefined) avatar.setAttribute('die-sound', entity.dieSound)
+                if (entity.health !== undefined) {
+                    avatar.setAttribute('health', entity.health)
 
                     const monitor = document.createElement('input')
 
                     monitor.type = 'range'
                     monitor.disabled = true
                     monitor.min = 0
-                    monitor.max = character.health
-                    monitor.value = character.health
-                    monitor.setAttribute('character', name)
-                    monitor.classList.add('jmg-health', 'jmg-health-' + monitor.getAttribute('character'))
+                    monitor.max = entity.health
+                    monitor.value = entity.health
+                    monitor.setAttribute('entity', name)
+                    monitor.classList.add('jmg-health', 'jmg-health-' + monitor.getAttribute('entity'))
                     monitor.id = 'jmg-' + time + '-health-monitor-' + name
                     document.body.appendChild(monitor)
                 }
-                avatar.setAttribute('character', name)
+                avatar.setAttribute('entity', name)
                 document.body.appendChild(avatar)
 
                 sessionStorage.setItem(name, true)
 
                 return {
-                    charatersList: this.charatersList,
-                    spawnedCharacters: this.spawnedCharacters,
+                    entitiesList: this.entitiesList,
+                    spawnedEntities: this.spawnedEntities,
                     events: {
                         hit: null,
                         died: null,
@@ -112,32 +112,32 @@ class Juniora {
                     },
                     onHit(method) {
                         this.events.hit = method
-                        this.spawnedCharacters[name + time].events.onHit = method
+                        this.spawnedEntities[name + time].events.onHit = method
                     },
                     onDied(method) {
                         this.events.died = method
-                        this.spawnedCharacters[name + time].events.onDied = method
+                        this.spawnedEntities[name + time].events.onDied = method
                     },
                     onMoved(method) {
                         this.events.moved = method
-                        this.spawnedCharacters[name + time].events.onMoved = method
+                        this.spawnedEntities[name + time].events.onMoved = method
                     },
                     moveUp(steps=8) {
                         const oldLocation = this.getLocation()
-                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
-                        character.setAttribute('top', +(character.getAttribute('top'))-steps)
-                        character.style.top = character.getAttribute('top') + "px"
+                        const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
+                        entity.setAttribute('top', +(entity.getAttribute('top'))-steps)
+                        entity.style.top = entity.getAttribute('top') + "px"
 
-                        const takedId = character.getAttribute('taked-id')
+                        const takedId = entity.getAttribute('taked-id')
                         if (takedId !== null && document.getElementById(takedId) !== undefined) {
                             const taked = document.getElementById(takedId)
-                            taked.style.top = +(character.getAttribute('top'))+character.clientHeight*0.5 + "px"
+                            taked.style.top = +(entity.getAttribute('top'))+entity.clientHeight*0.5 + "px"
                         }
 
-                        const health = character.getAttribute('health')
+                        const health = entity.getAttribute('health')
                         if (health !== null) {
-                            const monitor = document.querySelector('#jmg-'+ character.getAttribute('time') +'-health-monitor-' + name)
-                            monitor.style.top = +(character.getAttribute('top'))-50 + "px"
+                            const monitor = document.querySelector('#jmg-'+ entity.getAttribute('time') +'-health-monitor-' + name)
+                            monitor.style.top = +(entity.getAttribute('top'))-50 + "px"
                         }
                         if (this.events.moved !== null) {
 
@@ -149,22 +149,22 @@ class Juniora {
                     moveDown(steps=8) {
                         const oldLocation = this.getLocation()
 
-                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
-                        character.setAttribute('top', +(character.getAttribute('top'))+steps)
-                        character.style.top = character.getAttribute('top') + "px"
+                        const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
+                        entity.setAttribute('top', +(entity.getAttribute('top'))+steps)
+                        entity.style.top = entity.getAttribute('top') + "px"
 
-                        const takedId = character.getAttribute('taked-id')
+                        const takedId = entity.getAttribute('taked-id')
                         if (takedId !== null && document.getElementById(takedId) !== undefined) {
                             const taked = document.getElementById(takedId)
-                            taked.style.top = +(character.getAttribute('top'))+character.clientHeight*0.5 + "px"
+                            taked.style.top = +(entity.getAttribute('top'))+entity.clientHeight*0.5 + "px"
                         }
 
-                        const health = character.getAttribute('health')
+                        const health = entity.getAttribute('health')
                         if (health !== null) {
-                            const monitor = document.querySelector('#jmg-'+ character.getAttribute('time') +'-health-monitor-' + name)
-                            monitor.style.top = +(character.getAttribute('top'))-50 + "px"
+                            const monitor = document.querySelector('#jmg-'+ entity.getAttribute('time') +'-health-monitor-' + name)
+                            monitor.style.top = +(entity.getAttribute('top'))-50 + "px"
 
-                            if (character.style.display === 'none') {
+                            if (entity.style.display === 'none') {
                                 monitor.style.top = document.body.clientHeight + 50 + "px"
                             }
                         }
@@ -179,19 +179,19 @@ class Juniora {
                     moveLeft(steps=8) {
                         const oldLocation = this.getLocation()
 
-                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
-                        character.setAttribute('left', +(character.getAttribute('left'))-steps)
-                        character.style.left = character.getAttribute('left') + "px"
+                        const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
+                        entity.setAttribute('left', +(entity.getAttribute('left'))-steps)
+                        entity.style.left = entity.getAttribute('left') + "px"
                         
-                        if (character.getAttribute('direction') === 'right') {
-                            character.classList.toggle('flip')
-                            character.setAttribute('direction', 'left')
+                        if (entity.getAttribute('direction') === 'right') {
+                            entity.classList.toggle('flip')
+                            entity.setAttribute('direction', 'left')
                         }
 
-                        const takedId = character.getAttribute('taked-id')
+                        const takedId = entity.getAttribute('taked-id')
                         if (takedId !== null && document.getElementById(takedId) !== undefined) {
                             const taked = document.getElementById(takedId)
-                            taked.style.left = +(character.getAttribute('left'))+80 + "px"
+                            taked.style.left = +(entity.getAttribute('left'))+80 + "px"
 
                             if (taked.getAttribute('direction') === 'right') {
                                 taked.classList.toggle('flip')
@@ -199,11 +199,11 @@ class Juniora {
                             }
                         }
 
-                        const health = character.getAttribute('health')
+                        const health = entity.getAttribute('health')
                         if (health !== null) {
-                            const monitor = document.querySelector('#jmg-'+ character.getAttribute('time') +'-health-monitor-' + name)
+                            const monitor = document.querySelector('#jmg-'+ entity.getAttribute('time') +'-health-monitor-' + name)
                             
-                            monitor.style.left = +(character.getAttribute('left'))-(monitor.clientWidth-character.clientWidth)/2 + "px"
+                            monitor.style.left = +(entity.getAttribute('left'))-(monitor.clientWidth-entity.clientWidth)/2 + "px"
                         }
                         if (this.events.moved !== null) {
 
@@ -215,19 +215,19 @@ class Juniora {
                     moveRight(steps=8) {
                         const oldLocation = this.getLocation()
 
-                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
-                        character.setAttribute('left', +(character.getAttribute('left'))+steps)
-                        character.style.left = character.getAttribute('left') + "px"
+                        const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
+                        entity.setAttribute('left', +(entity.getAttribute('left'))+steps)
+                        entity.style.left = entity.getAttribute('left') + "px"
 
-                        if (character.getAttribute('direction') === 'left') {
-                            character.classList.toggle('flip')
-                            character.setAttribute('direction', 'right')
+                        if (entity.getAttribute('direction') === 'left') {
+                            entity.classList.toggle('flip')
+                            entity.setAttribute('direction', 'right')
                         }
 
-                        const takedId = character.getAttribute('taked-id')
+                        const takedId = entity.getAttribute('taked-id')
                         if (takedId !== null && document.getElementById(takedId) !== undefined) {
                             const taked = document.getElementById(takedId)
-                            taked.style.left = +(character.getAttribute('left'))+80 + "px"
+                            taked.style.left = +(entity.getAttribute('left'))+80 + "px"
 
                             if (taked.getAttribute('direction') === 'left') {
                                 taked.classList.toggle('flip')
@@ -235,10 +235,10 @@ class Juniora {
                             }
                         }
 
-                        const health = character.getAttribute('health')
+                        const health = entity.getAttribute('health')
                         if (health !== null) {
-                            const monitor = document.querySelector('#jmg-'+ character.getAttribute('time') +'-health-monitor-' + name)
-                            monitor.style.left = +(character.getAttribute('left'))-(monitor.clientWidth-character.clientWidth)/2 + "px"
+                            const monitor = document.querySelector('#jmg-'+ entity.getAttribute('time') +'-health-monitor-' + name)
+                            monitor.style.left = +(entity.getAttribute('left'))-(monitor.clientWidth-entity.clientWidth)/2 + "px"
                         }
                         if (this.events.moved !== null) {
 
@@ -250,8 +250,8 @@ class Juniora {
                     jump(steps=350) {
                         const oldLocation = this.getLocation()
 
-                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
-                        if (character.getAttribute("physics") === "active" && +(character.getAttribute("top"))+character.clientHeight >= document.body.clientHeight) {
+                        const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
+                        if (entity.getAttribute("physics") === "active" && +(entity.getAttribute("top"))+entity.clientHeight >= document.body.clientHeight) {
                             this.moveUp(steps)
                         }
                         if (this.events.moved !== null) {
@@ -261,33 +261,33 @@ class Juniora {
                             })}
                     },
                     getLocation() {
-                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
-                        return [+(character.getAttribute('top')), +(character.getAttribute('left'))]
+                        const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
+                        return [+(entity.getAttribute('top')), +(entity.getAttribute('left'))]
                     },
                     getSize() {
-                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
-                        return [character.clientHeight, character.clientWidth]
+                        const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
+                        return [entity.clientHeight, entity.clientWidth]
                     },
                     getDirection() {
-                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
-                        return character.getAttribute("direction")
+                        const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
+                        return entity.getAttribute("direction")
                     },
                     getElement() {
-                        return document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
+                        return document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
                     },
                     activateUserControlls() {
-                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
+                        const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
                         document.addEventListener("keydown", e => {
                             switch (e.key) {
                                 case 'ArrowDown':
                                 case 's':
-                                    if (character.getAttribute("physics") !== "active"){
+                                    if (entity.getAttribute("physics") !== "active"){
                                         this.moveDown()
                                     }
                                     break;
                                 case 'ArrowUp':
                                 case 'w':
-                                    if (character.getAttribute("physics") !== "active") {
+                                    if (entity.getAttribute("physics") !== "active") {
                                         this.moveUp()
                                     }
                                     break;
@@ -309,28 +309,28 @@ class Juniora {
 
                     },
                     activatePhysics() {
-                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
-                        character.setAttribute("physics", "active")
+                        const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
+                        entity.setAttribute("physics", "active")
 
                         setInterval(() => {
-                            if (+(character.getAttribute("top"))+character.clientHeight < document.body.clientHeight) {
+                            if (+(entity.getAttribute("top"))+entity.clientHeight < document.body.clientHeight) {
                                 this.moveDown(10)
                             }
                         }, 25)
 
                     },
                     health(health='current', effects=false, effectType='red', effectTime=250) {
-                        const character = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
-                        if (character.getAttribute('health') !== null && +(character.getAttribute('health')) > 0) {
+                        const entity = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
+                        if (entity.getAttribute('health') !== null && +(entity.getAttribute('health')) > 0) {
                             if (health === 'current') {
-                                health = +(document.querySelector(`#jmg-${time}-${counter}-character-${name}`).getAttribute('health'))
+                                health = +(document.querySelector(`#jmg-${time}-${counter}-entity-${name}`).getAttribute('health'))
                             }
-                            document.querySelector(`#jmg-${time}-${counter}-character-${name}`).setAttribute('health', health)
+                            document.querySelector(`#jmg-${time}-${counter}-entity-${name}`).setAttribute('health', health)
                             document.querySelector('#jmg-'+ time + '-health-monitor-' + name).value = health
     
                             if (effects) {
-                                character.classList.add(`${effectType}-filter`)
-                                setTimeout(() => character.classList.remove(`${effectType}-filter`), effectTime)
+                                entity.classList.add(`${effectType}-filter`)
+                                setTimeout(() => entity.classList.remove(`${effectType}-filter`), effectTime)
                             }
     
                             if (health <= 0) {
@@ -338,14 +338,14 @@ class Juniora {
                                     this.events.died()
                                 } catch (error) {}
                                 if (effects) {
-                                    character.classList.add('gray-filter', 'despawn-effect')
+                                    entity.classList.add('gray-filter', 'despawn-effect')
                                 }                 
-                                setTimeout(() => character.style.display = 'none', 800)
+                                setTimeout(() => entity.style.display = 'none', 800)
                                 
-                                const takedId = character.getAttribute('taked-id')
+                                const takedId = entity.getAttribute('taked-id')
                                 if (takedId !== null && document.getElementById(takedId) !== undefined) {
                                     const taked = document.getElementById(takedId)
-                                    taked.style.top = +(character.getAttribute('top'))+500 + "px"
+                                    taked.style.top = +(entity.getAttribute('top'))+500 + "px"
                                     taked.classList.add('gray-filter', 'despawn-effect')
                                     setTimeout(() => taked.style.display = 'none', 800)
                                 }
@@ -355,34 +355,34 @@ class Juniora {
                         return 0
                     },
                     despawn() {
-                        document.querySelector(`#jmg-${time}-${counter}-character-${name}`).style.display = 'none'
+                        document.querySelector(`#jmg-${time}-${counter}-entity-${name}`).style.display = 'none'
                     },
                     spawn() {
-                        document.querySelector(`#jmg-${time}-${counter}-character-${name}`).style.display = 'block'
+                        document.querySelector(`#jmg-${time}-${counter}-entity-${name}`).style.display = 'block'
                     },
                     untake(takedId) {
                         document.body.removeChild(document.getElementById(takedId))
                     },
                     take(takingName) {
-                        const taker = document.querySelector(`#jmg-${time}-${counter}-character-${name}`)
+                        const taker = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
                         const takingTime = Date.now()
                         const takingCounter = +(sessionStorage['jmg-taking-counter'])
                         sessionStorage['jmg-taking-counter'] = takingCounter + 1
-                        const character = this.charatersList[takingName]
-                        if (character === undefined) {
-                            console.error(`'${takingName}' is not a character`)
+                        const entity = this.entitiesList[takingName]
+                        if (entity === undefined) {
+                            console.error(`'${takingName}' is not a entity`)
                             return 0
                         }
-                        if (character.avatar === undefined) {
+                        if (entity.avatar === undefined) {
                             console.error(`'${takingName}' doesn't have avatar`);
                             return 0
                         }
 
                         let avatar = document.createElement('img')
-                        avatar.src = character.avatar
+                        avatar.src = entity.avatar
                         avatar.alt = 'Loaded by JunioraMG'
 
-                        taker.setAttribute('taked-id', `jmg-taked-${takingTime}-${takingCounter}-character-` + takingName)
+                        taker.setAttribute('taked-id', `jmg-taked-${takingTime}-${takingCounter}-entity-` + takingName)
 
                         const sizes = {
                             'xx-sm': '20px',
@@ -393,14 +393,14 @@ class Juniora {
                             'x-lg' : '180px',
                             'xx-lg': '210px'
                         }
-                        if (!['xx-sm', 'x-sm', 'sm', 'md', 'lg', 'x-lg', 'xx-lg'].includes(character.size)) {
-                            character.size = 'md'
+                        if (!['xx-sm', 'x-sm', 'sm', 'md', 'lg', 'x-lg', 'xx-lg'].includes(entity.size)) {
+                            entity.size = 'md'
                         }
 
-                        avatar.style = 'width: '+sizes[character.size]
-                        avatar.id = `jmg-taked-${takingTime}-${takingCounter}-character-${takingName}`
-                        avatar.classList.add('jmg-taked-characters')
-                        let direction = character.direction === undefined ? 'right' : character.direction
+                        avatar.style = 'width: '+sizes[entity.size]
+                        avatar.id = `jmg-taked-${takingTime}-${takingCounter}-entity-${takingName}`
+                        avatar.classList.add('jmg-taked-entity')
+                        let direction = entity.direction === undefined ? 'right' : entity.direction
                         if (direction === 'r') direction = 'right'
                         if (direction === 'l') direction = 'left'
                         avatar.setAttribute('direction', direction)
@@ -409,29 +409,29 @@ class Juniora {
 
                         document.body.appendChild(avatar)
 
-                        sessionStorage.setItem(takingName, `jmg-taked-${takingTime}-${takingCounter}-character-` + takingName)
+                        sessionStorage.setItem(takingName, `jmg-taked-${takingTime}-${takingCounter}-entity-` + takingName)
 
-                        return `jmg-taked-${takingTime}-${takingCounter}-character-${takingName}`
+                        return `jmg-taked-${takingTime}-${takingCounter}-entity-${takingName}`
                     }
                 }
             },
             shoot(ballName, startAt=[0,0], direction='right', speed=20, decreaseSpeed=0, fall=false) {
-                const spawnedCharacters = this.spawnedCharacters
+                const spawnedEntities = this.spawnedEntities
 
                 const time = Date.now()
 
-                let character = this.charatersList[ballName]
-                if (character === undefined) {
-                    console.error(`'${ballName}' is not a character`)
+                let entity = this.entitiesList[ballName]
+                if (entity === undefined) {
+                    console.error(`'${ballName}' is not a entity`)
                     return 0
                 }
-                if (character.avatar === undefined) {
+                if (entity.avatar === undefined) {
                     console.error(`'${ballName}' doesn't have avatar`);
                     return 0
                 }
 
                 let avatar = document.createElement('img')
-                avatar.src = character.avatar
+                avatar.src = entity.avatar
                 avatar.alt = 'Loaded by JunioraMG'
 
                 const sizes = {
@@ -443,13 +443,13 @@ class Juniora {
                     'x-lg' : '180px',
                     'xx-lg': '210px'
                 }
-                if (!['xx-sm', 'x-sm', 'sm', 'md', 'lg', 'x-lg', 'xx-lg'].includes(character.size)) {
-                    character.size = 'md'
+                if (!['xx-sm', 'x-sm', 'sm', 'md', 'lg', 'x-lg', 'xx-lg'].includes(entity.size)) {
+                    entity.size = 'md'
                 }
-                avatar.style = 'width: ' + sizes[character.size]
-                avatar.id = `jmg-ball-${time}-character-${ballName}`
-                avatar.classList.add('jmg-ball-characters')
-                if (character.flip === true) avatar.classList.add('flip')
+                avatar.style = 'width: ' + sizes[entity.size]
+                avatar.id = `jmg-ball-${time}-entity-${ballName}`
+                avatar.classList.add('jmg-ball-entities')
+                if (entity.flip === true) avatar.classList.add('flip')
                 avatar.setAttribute('top', `${startAt[0]}`)
                 avatar.setAttribute('left', `${startAt[1]}`)
                 avatar.style.top = avatar.getAttribute('top') + "px"
@@ -458,7 +458,7 @@ class Juniora {
                     switch (direction) {
                         case 'right':
                         case 'r':
-                            if (!character.flip) {
+                            if (!entity.flip) {
                                 avatar.classList.remove('rotate90')
                                 avatar.classList.remove('rotate180')
                                 avatar.classList.remove('rotate270')
@@ -473,7 +473,7 @@ class Juniora {
                             break
                         case 'left':
                         case 'l':
-                            if (!character.flip) {
+                            if (!entity.flip) {
                                 avatar.classList.remove('rotate90')
                                 avatar.classList.remove('rotate0')
                                 avatar.classList.remove('rotate270')
@@ -506,10 +506,10 @@ class Juniora {
                     }
 
                 document.body.append(avatar)
-                sessionStorage.setItem(ballName, `jmg-ball-${time}-character-${ballName}`)
+                sessionStorage.setItem(ballName, `jmg-ball-${time}-entity-${ballName}`)
 
                 let shootingBall = setInterval(() => {
-                    const ball = document.querySelector(`#jmg-ball-${time}-character-${ballName}`)
+                    const ball = document.querySelector(`#jmg-ball-${time}-entity-${ballName}`)
                     switch (direction) {
                         case 'right':
                         case 'r':
@@ -542,14 +542,14 @@ class Juniora {
 
                     let ballTop = +(ball.getAttribute('top'))
                     let ballLeft = +(ball.getAttribute('left'))
-                    for (let character of document.getElementsByClassName('jmg-characters')) {
+                    for (let entity of document.getElementsByClassName('jmg-entities')) {
 
-                        let characterTop = +(character.getAttribute('top'))
-                        let characterLeft = +(character.getAttribute('left'))
-                        if (ballTop > characterTop && ballTop < characterTop+character.clientHeight && ballLeft > characterLeft && ballLeft < characterLeft+character.clientWidth) {
-                            const characterData = spawnedCharacters[character.getAttribute('character') + character.getAttribute('time')]
-                            if (characterData.events.onHit !== undefined) {
-                                if (characterData.events.onHit(ballName)) {
+                        let entityTop = +(entity.getAttribute('top'))
+                        let entityLeft = +(entity.getAttribute('left'))
+                        if (ballTop > entityTop && ballTop < entityTop+entity.clientHeight && ballLeft > entityLeft && ballLeft < entityLeft+entity.clientWidth) {
+                            const entityData = spawnedEntities[entity.getAttribute('entity') + entity.getAttribute('time')]
+                            if (entityData.events.onHit !== undefined) {
+                                if (entityData.events.onHit(ballName)) {
                                     clearInterval(shootingBall)
                                     ball.style.display = 'none'
                                     document.body.removeChild(ball)

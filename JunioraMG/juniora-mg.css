@@ -8,19 +8,19 @@ body {
     overflow: hidden;
 }
 
-.jmg-characters {
+.jmg-entities {
     position: absolute;
     transition: .1s;
     z-index: 5;
 }
 
-.jmg-taked-characters {
+.jmg-taked-entities {
     position: absolute;
     transition: .3s;
     z-index: 6;
 }
 
-.jmg-ball-characters {
+.jmg-ball-entities {
     position: absolute;
     transition: .01s;
 }
