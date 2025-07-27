@@ -566,14 +566,14 @@ class Juniora {
     }
 }
 
-function image(src) {
+function loadImage(src) {
     let img = document.createElement('img')
     img.src = src
     img.alt = "Loaded by JunioraMG Engine"
     return img
 }
 
-function sound(url) {
+function playSound(url) {
     const sound = new Audio(url)
     sound.play()
 }
