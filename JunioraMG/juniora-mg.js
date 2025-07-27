@@ -53,7 +53,7 @@ class Juniora {
                 avatar.src = entity.avatar
                 avatar.alt = 'Loaded by JunioraMG'
 
-                this.spawnedEntities[name + time] = {
+                this.spawnedEntities[name + time + counter] = {
                     isLive: true,
                     id: 'jmg-' +time+ '-entity-' + name,
                     events: {}
@@ -112,15 +112,15 @@ class Juniora {
                     },
                     onHit(method) {
                         this.events.hit = method
-                        this.spawnedEntities[name + time].events.onHit = method
+                        this.spawnedEntities[name + time + counter].events.onHit = method
                     },
                     onDied(method) {
                         this.events.died = method
-                        this.spawnedEntities[name + time].events.onDied = method
+                        this.spawnedEntities[name + time + counter].events.onDied = method
                     },
                     onMoved(method) {
                         this.events.moved = method
-                        this.spawnedEntities[name + time].events.onMoved = method
+                        this.spawnedEntities[name + time + counter].events.onMoved = method
                     },
                     moveUp(steps=8) {
                         const oldLocation = this.getLocation()
