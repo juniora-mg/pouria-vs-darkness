@@ -14,7 +14,7 @@ class Juniora {
     setup(method) {
         this.method = method
         sessionStorage['jmg-counter'] = 0
-        sessionStorage['jmg-taking-counter'] = 0
+        sessionStorage['jmg-attaching-counter'] = 0
     }
     defineEntities(entities) {
         this.entities = entities
@@ -128,10 +128,10 @@ class Juniora {
                         entity.setAttribute('top', +(entity.getAttribute('top'))-steps)
                         entity.style.top = entity.getAttribute('top') + "px"
 
-                        const takedId = entity.getAttribute('taked-id')
-                        if (takedId !== null && document.getElementById(takedId) !== undefined) {
-                            const taked = document.getElementById(takedId)
-                            taked.style.top = +(entity.getAttribute('top'))+entity.clientHeight*0.5 + "px"
+                        const attachedId = entity.getAttribute('attached-id')
+                        if (attachedId !== null && document.getElementById(attachedId) !== undefined) {
+                            const attached = document.getElementById(attachedId)
+                            attached.style.top = +(entity.getAttribute('top'))+entity.clientHeight*0.5 + "px"
                         }
 
                         const health = entity.getAttribute('health')
@@ -153,10 +153,10 @@ class Juniora {
                         entity.setAttribute('top', +(entity.getAttribute('top'))+steps)
                         entity.style.top = entity.getAttribute('top') + "px"
 
-                        const takedId = entity.getAttribute('taked-id')
-                        if (takedId !== null && document.getElementById(takedId) !== undefined) {
-                            const taked = document.getElementById(takedId)
-                            taked.style.top = +(entity.getAttribute('top'))+entity.clientHeight*0.5 + "px"
+                        const attachedId = entity.getAttribute('attached-id')
+                        if (attachedId !== null && document.getElementById(attachedId) !== undefined) {
+                            const attached = document.getElementById(attachedId)
+                            attached.style.top = +(entity.getAttribute('top'))+entity.clientHeight*0.5 + "px"
                         }
 
                         const health = entity.getAttribute('health')
@@ -188,14 +188,14 @@ class Juniora {
                             entity.setAttribute('direction', 'left')
                         }
 
-                        const takedId = entity.getAttribute('taked-id')
-                        if (takedId !== null && document.getElementById(takedId) !== undefined) {
-                            const taked = document.getElementById(takedId)
-                            taked.style.left = +(entity.getAttribute('left'))+80 + "px"
+                        const attachedId = entity.getAttribute('attached-id')
+                        if (attachedId !== null && document.getElementById(attachedId) !== undefined) {
+                            const attached = document.getElementById(attachedId)
+                            attached.style.left = +(entity.getAttribute('left'))+80 + "px"
 
-                            if (taked.getAttribute('direction') === 'right') {
-                                taked.classList.toggle('flip')
-                                taked.setAttribute('direction', 'left')
+                            if (attached.getAttribute('direction') === 'right') {
+                                attached.classList.toggle('flip')
+                                attached.setAttribute('direction', 'left')
                             }
                         }
 
@@ -224,14 +224,14 @@ class Juniora {
                             entity.setAttribute('direction', 'right')
                         }
 
-                        const takedId = entity.getAttribute('taked-id')
-                        if (takedId !== null && document.getElementById(takedId) !== undefined) {
-                            const taked = document.getElementById(takedId)
-                            taked.style.left = +(entity.getAttribute('left'))+80 + "px"
+                        const attachedId = entity.getAttribute('attached-id')
+                        if (attachedId !== null && document.getElementById(attachedId) !== undefined) {
+                            const attached = document.getElementById(attachedId)
+                            attached.style.left = +(entity.getAttribute('left'))+80 + "px"
 
-                            if (taked.getAttribute('direction') === 'left') {
-                                taked.classList.toggle('flip')
-                                taked.setAttribute('direction', 'right')
+                            if (attached.getAttribute('direction') === 'left') {
+                                attached.classList.toggle('flip')
+                                attached.setAttribute('direction', 'right')
                             }
                         }
 
@@ -342,12 +342,12 @@ class Juniora {
                                 }                 
                                 setTimeout(() => entity.style.display = 'none', 800)
                                 
-                                const takedId = entity.getAttribute('taked-id')
-                                if (takedId !== null && document.getElementById(takedId) !== undefined) {
-                                    const taked = document.getElementById(takedId)
-                                    taked.style.top = +(entity.getAttribute('top'))+500 + "px"
-                                    taked.classList.add('gray-filter', 'despawn-effect')
-                                    setTimeout(() => taked.style.display = 'none', 800)
+                                const attachedId = entity.getAttribute('attached-id')
+                                if (attachedId !== null && document.getElementById(attachedId) !== undefined) {
+                                    const attached = document.getElementById(attachedId)
+                                    attached.style.top = +(entity.getAttribute('top'))+500 + "px"
+                                    attached.classList.add('gray-filter', 'despawn-effect')
+                                    setTimeout(() => attached.style.display = 'none', 800)
                                 }
                             }
                             return health   
@@ -360,21 +360,21 @@ class Juniora {
                     spawn() {
                         document.querySelector(`#jmg-${time}-${counter}-entity-${name}`).style.display = 'block'
                     },
-                    untake(takedId) {
-                        document.body.removeChild(document.getElementById(takedId))
+                    detach(attachedId) {
+                        document.body.removeChild(document.getElementById(attachedId))
                     },
-                    take(takingName) {
-                        const taker = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
-                        const takingTime = Date.now()
-                        const takingCounter = +(sessionStorage['jmg-taking-counter'])
-                        sessionStorage['jmg-taking-counter'] = takingCounter + 1
-                        const entity = this.entitiesList[takingName]
+                    attach(targetName) {
+                        const attachedTo = document.querySelector(`#jmg-${time}-${counter}-entity-${name}`)
+                        const attachedAt = Date.now()
+                        const attachingCounter = +(sessionStorage['jmg-attaching-counter'])
+                        sessionStorage['jmg-attaching-counter'] = attachingCounter + 1
+                        const entity = this.entitiesList[targetName]
                         if (entity === undefined) {
-                            console.error(`'${takingName}' is not a entity`)
+                            console.error(`'${targetName}' is not a entity`)
                             return 0
                         }
                         if (entity.avatar === undefined) {
-                            console.error(`'${takingName}' doesn't have avatar`);
+                            console.error(`'${targetName}' doesn't have avatar`);
                             return 0
                         }
 
@@ -382,7 +382,7 @@ class Juniora {
                         avatar.src = entity.avatar
                         avatar.alt = 'Loaded by JunioraMG'
 
-                        taker.setAttribute('taked-id', `jmg-taked-${takingTime}-${takingCounter}-entity-` + takingName)
+                        attachedTo.setAttribute('attached-id', `jmg-attached-${attachedAt}-${attachingCounter}-entity-` + targetName)
 
                         const sizes = {
                             'xx-sm': '20px',
@@ -398,20 +398,20 @@ class Juniora {
                         }
 
                         avatar.style = 'width: '+sizes[entity.size]
-                        avatar.id = `jmg-taked-${takingTime}-${takingCounter}-entity-${takingName}`
-                        avatar.classList.add('jmg-taked-entity')
+                        avatar.id = `jmg-attached-${attachedAt}-${attachingCounter}-entity-${targetName}`
+                        avatar.classList.add('jmg-attached-entity')
                         let direction = entity.direction === undefined ? 'right' : entity.direction
                         if (direction === 'r') direction = 'right'
                         if (direction === 'l') direction = 'left'
                         avatar.setAttribute('direction', direction)
-                        avatar.style.top = +(taker.getAttribute('top'))+taker.clientHeight*0.5 + "px"
-                        avatar.style.left = +(taker.getAttribute('left'))+taker.clientWidth*0.5 + "px"
+                        avatar.style.top = +(attachedTo.getAttribute('top'))+attachedTo.clientHeight*0.5 + "px"
+                        avatar.style.left = +(attachedTo.getAttribute('left'))+attachedTo.clientWidth*0.5 + "px"
 
                         document.body.appendChild(avatar)
 
-                        sessionStorage.setItem(takingName, `jmg-taked-${takingTime}-${takingCounter}-entity-` + takingName)
+                        sessionStorage.setItem(targetName, `jmg-attached-${attachedAt}-${attachingCounter}-entity-` + targetName)
 
-                        return `jmg-taked-${takingTime}-${takingCounter}-entity-${takingName}`
+                        return `jmg-attached-${attachedAt}-${attachingCounter}-entity-${targetName}`
                     }
                 }
             },
@@ -549,7 +549,7 @@ class Juniora {
                         if (ballTop > entityTop && ballTop < entityTop+entity.clientHeight && ballLeft > entityLeft && ballLeft < entityLeft+entity.clientWidth) {
                             const entityData = spawnedEntities[entity.getAttribute('entity') + entity.getAttribute('time')]
                             if (entityData.events.onHit !== undefined) {
-                                if (entityData.events.onHit(ballName)) {
+                                if (characterData.events.onHit(ballName)) {
                                     clearInterval(shootingBall)
                                     ball.style.display = 'none'
                                     document.body.removeChild(ball)

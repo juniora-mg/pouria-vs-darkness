@@ -14,7 +14,7 @@ body {
     z-index: 5;
 }
 
-.jmg-taked-entities {
+.jmg-attached-entities {
     position: absolute;
     transition: .3s;
     z-index: 6;
