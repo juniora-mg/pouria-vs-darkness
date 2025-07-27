@@ -2,8 +2,8 @@ const { app, BrowserWindow, Menu } = require('electron')
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1600,
+    height: 1000,
     menu: null,
     icon: "./images/icon.png"
   })
