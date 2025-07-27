@@ -592,4 +592,4 @@ function size(size) {
 }
 
 export default Juniora;
-export {image, sound, size}
+export {loadImage, playSound, size}
