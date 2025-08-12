@@ -38,7 +38,7 @@ const shopItems = [
     {
         id: "soul",
         type: "power",
-        price: 50
+        price: 50   -50
     }
 ]
 
