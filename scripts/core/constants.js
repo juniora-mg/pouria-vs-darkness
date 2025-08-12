@@ -8,5 +8,6 @@ const MAX_HEALTH = {
     netaniaho: 600,
     Trump: 800
 }
+const SHOP_ITEMS_URL = 'https://raw.githubusercontent.com/juniora-mg/pouria-game-data/refs/heads/main/shop-items.json'
 
-export {DAMAGES, MAX_HEALTH}
+export {DAMAGES, MAX_HEALTH, SHOP_ITEMS_URL}
