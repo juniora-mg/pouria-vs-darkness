@@ -1,6 +1,6 @@
 {
   "name": "pouria-game",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Pouria vs Darkness: The Final Fight",
   "main": "app.js",
   "scripts": {
